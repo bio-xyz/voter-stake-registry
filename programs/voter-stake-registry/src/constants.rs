@@ -1,4 +1,4 @@
-use solana_program::pubkey::Pubkey;
+use anchor_lang::solana_program::pubkey::Pubkey;
 use anchor_lang::pubkey;
 
 pub const ALLOWED_CPI_PROGRAMS: &[Pubkey] = &[

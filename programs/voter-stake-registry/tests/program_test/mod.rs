@@ -2,13 +2,13 @@ use log::*;
 use std::cell::RefCell;
 use std::{str::FromStr, sync::Arc, sync::RwLock};
 
-use solana_program::{program_option::COption, program_pack::Pack};
+use anchor_lang::solana_program::{program_option::COption, program_pack::Pack};
 use solana_program_test::*;
 use solana_sdk::{
     pubkey::Pubkey,
     signature::{Keypair, Signer},
 };
-use spl_token::{state::*, *};
+use spl_token::state::*;
 
 pub use addin::*;
 pub use cookies::*;
@@ -208,7 +208,7 @@ impl TestContext {
             });
         }
 
-        let mut context = test.start_with_context().await;
+        let context = test.start_with_context().await;
         let rent = context.banks_client.get_rent().await.unwrap();
 
         let solana = Arc::new(SolanaCookie {
