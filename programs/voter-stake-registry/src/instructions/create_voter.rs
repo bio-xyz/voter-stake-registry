@@ -3,7 +3,6 @@ use crate::error::*;
 use crate::state::*;
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::sysvar::instructions as tx_instructions;
-use anchor_lang::Discriminator;
 use std::mem::size_of;
 
 #[derive(Accounts)]

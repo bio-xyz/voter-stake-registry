@@ -4,12 +4,13 @@ use anchor_lang::prelude::*;
 use instructions::*;
 use state::*;
 
+mod constants;
 mod error;
 pub mod events;
 mod governance;
 mod instructions;
 pub mod state;
-mod constants;
+mod tools;
 
 #[macro_use]
 extern crate static_assertions;
@@ -115,17 +116,25 @@ pub mod voter_stake_registry {
         )
     }
 
-    pub fn deposit(ctx: Context<Deposit>, deposit_entry_index: u8, amount: u64) -> Result<()> {
+    pub fn deposit<'info>(
+        ctx: Context<'_, '_, '_, 'info, Deposit<'info>>,
+        deposit_entry_index: u8,
+        amount: u64,
+    ) -> Result<()> {
         instructions::deposit(ctx, deposit_entry_index, amount)
     }
 
-    pub fn withdraw(ctx: Context<Withdraw>, deposit_entry_index: u8, amount: u64) -> Result<()> {
+    pub fn withdraw<'info>(
+        ctx: Context<'_, '_, '_, 'info, Withdraw<'info>>,
+        deposit_entry_index: u8,
+        amount: u64,
+    ) -> Result<()> {
         instructions::withdraw(ctx, deposit_entry_index, amount)
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub fn grant(
-        ctx: Context<Grant>,
+    pub fn grant<'info>(
+        ctx: Context<'_, '_, '_, 'info, Grant<'info>>,
         voter_bump: u8,
         voter_weight_record_bump: u8,
         kind: LockupKind,

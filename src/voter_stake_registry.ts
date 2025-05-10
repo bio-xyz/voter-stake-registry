@@ -899,8 +899,7 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "deposit_token.mint",
-                "account": "tokenAccount"
+                "path": "mint"
               }
             ],
             "program": {
@@ -943,6 +942,9 @@ export type VoterStakeRegistry = {
           }
         },
         {
+          "name": "mint"
+        },
+        {
           "name": "depositToken",
           "writable": true
         },
@@ -951,8 +953,7 @@ export type VoterStakeRegistry = {
           "signer": true
         },
         {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          "name": "tokenProgram"
         }
       ],
       "args": [
@@ -1185,8 +1186,7 @@ export type VoterStakeRegistry = {
           "address": "11111111111111111111111111111111"
         },
         {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          "name": "tokenProgram"
         },
         {
           "name": "associatedTokenProgram",
@@ -1778,8 +1778,7 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "destination.mint",
-                "account": "tokenAccount"
+                "path": "mint"
               }
             ],
             "program": {
@@ -1822,12 +1821,14 @@ export type VoterStakeRegistry = {
           }
         },
         {
+          "name": "mint"
+        },
+        {
           "name": "destination",
           "writable": true
         },
         {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          "name": "tokenProgram"
         }
       ],
       "args": [
@@ -2087,6 +2088,11 @@ export type VoterStakeRegistry = {
     {
       "code": 6037,
       "name": "invalidTimestampArguments",
+      "msg": ""
+    },
+    {
+      "code": 6038,
+      "name": "mathematicalOverflow",
       "msg": ""
     }
   ],

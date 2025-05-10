@@ -1,7 +1,11 @@
 use crate::error::*;
 use crate::state::*;
+use crate::tools::get_current_mint_fee;
+use crate::tools::transfer_spl_tokens_signed;
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Token, TokenAccount};
+use anchor_spl::token_interface::Mint;
+use anchor_spl::token_interface::TokenAccount;
+use anchor_spl::token_interface::TokenInterface;
 
 #[derive(Accounts)]
 pub struct Withdraw<'info> {
@@ -45,26 +49,16 @@ pub struct Withdraw<'info> {
     #[account(
         mut,
         associated_token::authority = voter,
-        associated_token::mint = destination.mint,
+        associated_token::mint = mint,
     )]
-    pub vault: Box<Account<'info, TokenAccount>>,
+    pub vault: Box<InterfaceAccount<'info, TokenAccount>>,
+
+    pub mint: Box<InterfaceAccount<'info, Mint>>,
 
     #[account(mut)]
-    pub destination: Box<Account<'info, TokenAccount>>,
+    pub destination: Box<InterfaceAccount<'info, TokenAccount>>,
 
-    pub token_program: Program<'info, Token>,
-}
-
-impl<'info> Withdraw<'info> {
-    pub fn transfer_ctx(&self) -> CpiContext<'_, '_, '_, 'info, token::Transfer<'info>> {
-        let program = self.token_program.to_account_info();
-        let accounts = token::Transfer {
-            from: self.vault.to_account_info(),
-            to: self.destination.to_account_info(),
-            authority: self.voter.to_account_info(),
-        };
-        CpiContext::new(program, accounts)
-    }
+    pub token_program: Interface<'info, TokenInterface>,
 }
 
 /// Withdraws tokens from a deposit entry, if they are unlocked according
@@ -72,19 +66,31 @@ impl<'info> Withdraw<'info> {
 ///
 /// `deposit_entry_index`: The deposit entry to withdraw from.
 /// `amount` is in units of the native currency being withdrawn.
-pub fn withdraw(ctx: Context<Withdraw>, deposit_entry_index: u8, amount: u64) -> Result<()> {
+pub fn withdraw<'info>(
+    ctx: Context<'_, '_, '_, 'info, Withdraw<'info>>,
+    deposit_entry_index: u8,
+    amount: u64,
+) -> Result<()> {
     {
         // Transfer the tokens to withdraw.
         let voter = &mut ctx.accounts.voter.load()?;
         let voter_seeds = voter_seeds!(voter);
-        token::transfer(
-            ctx.accounts.transfer_ctx().with_signer(&[voter_seeds]),
+        transfer_spl_tokens_signed(
+            &ctx.accounts.vault.to_account_info(),
+            &ctx.accounts.destination.to_account_info(),
+            &ctx.accounts.voter.to_account_info(),
+            voter_seeds,
             amount,
+            &ctx.accounts.token_program.to_account_info(),
+            &ctx.accounts.mint.to_account_info(),
+            &ctx.remaining_accounts,
+            ctx.accounts.mint.decimals,
         )?;
     }
 
     // Load the accounts.
     let registrar = &ctx.accounts.registrar.load()?;
+    let mint = &ctx.accounts.mint;
     let voter = &mut ctx.accounts.voter.load_mut()?;
 
     // Get the exchange rate for the token being withdrawn.
@@ -113,21 +119,26 @@ pub fn withdraw(ctx: Context<Withdraw>, deposit_entry_index: u8, amount: u64) ->
         deposit_entry.voting_mint_config_idx as usize,
         VsrError::InvalidMint
     );
+    // If the mint has a transfer fee, we need to account for it.
+    // otherwise the amount is the same as the amount to withdraw.
+    let withdrawn_amount = amount
+        .checked_sub(get_current_mint_fee(&mint.to_account_info(), amount)?)
+        .ok_or(VsrError::MathematicalOverflow)?;
 
     // Bookkeeping for withdrawn funds.
     require_gte!(
         deposit_entry.amount_deposited_native,
-        amount,
+        withdrawn_amount,
         VsrError::InternalProgramError
     );
     deposit_entry.amount_deposited_native = deposit_entry
         .amount_deposited_native
-        .checked_sub(amount)
+        .checked_sub(withdrawn_amount)
         .unwrap();
 
     msg!(
         "Withdrew amount {} at deposit index {} with lockup kind {:?} and {} seconds left",
-        amount,
+        withdrawn_amount,
         deposit_entry_index,
         deposit_entry.lockup.kind,
         deposit_entry.lockup.seconds_left(curr_ts),

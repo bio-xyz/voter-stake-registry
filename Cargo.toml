@@ -3,9 +3,9 @@ members = [
     "programs/*",
     # Drop everything below this line before running "anchor publish":
     # Otherwise the build will fail since Anchor uploads only parts of the source tree.
-    "cli/"
+    # "cli/"
 ]
-resolver = "1"
+resolver = "2"
 
 [profile.release]
 overflow-checks = true

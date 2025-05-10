@@ -8,7 +8,7 @@ mod program_test;
 
 fn deserialize_event<T: anchor_lang::Event>(event: &str) -> Option<T> {
     let data = base64::decode(event).ok()?;
-    if data.len() < 8 || data[0..8] != T::discriminator() {
+    if data.len() < 8 || &data[0..8] != T::DISCRIMINATOR {
         return None;
     }
     T::try_from_slice(&data[8..]).ok()

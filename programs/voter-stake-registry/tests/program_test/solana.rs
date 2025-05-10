@@ -3,8 +3,9 @@ use std::sync::{Arc, RwLock};
 
 use anchor_lang::AccountDeserialize;
 use anchor_spl::token::TokenAccount;
-use solana_program::{program_pack::Pack, rent::*, system_instruction};
+use anchor_lang::solana_program::{program_pack::Pack, rent::*};
 use solana_program_test::*;
+use solana_sdk::{clock, system_instruction};
 use solana_sdk::{
     account::ReadableAccount,
     instruction::Instruction,
@@ -12,7 +13,6 @@ use solana_sdk::{
     signature::{Keypair, Signer},
     transaction::Transaction,
 };
-use spl_token::*;
 
 pub struct SolanaCookie {
     pub context: RefCell<ProgramTestContext>,
@@ -29,7 +29,7 @@ impl SolanaCookie {
     ) -> Result<(), BanksClientError> {
         *self.program_output.write().unwrap() = super::ProgramOutput::default();
 
-        let mut context = self.context.borrow_mut();
+        let context = self.context.borrow_mut();
 
         let mut transaction =
             Transaction::new_with_payer(&instructions, Some(&context.payer.pubkey()));
@@ -54,11 +54,11 @@ impl SolanaCookie {
             .await
     }
 
-    pub async fn get_clock(&self) -> solana_program::clock::Clock {
+    pub async fn get_clock(&self) -> clock::Clock {
         self.context
             .borrow_mut()
             .banks_client
-            .get_sysvar::<solana_program::clock::Clock>()
+            .get_sysvar::<clock::Clock>()
             .await
             .unwrap()
     }
