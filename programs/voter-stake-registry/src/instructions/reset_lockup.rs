@@ -47,7 +47,7 @@ pub fn reset_lockup(
 
     // Don't re-lock clawback deposits. Users must withdraw and create a new one.
     require!(
-        !source.allow_clawback,
+        !source.allow_clawback(),
         VsrError::InvalidChangeToClawbackDepositEntry
     );
 

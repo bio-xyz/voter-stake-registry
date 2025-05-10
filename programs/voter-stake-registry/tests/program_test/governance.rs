@@ -3,7 +3,6 @@ use std::sync::Arc;
 use solana_program::instruction::Instruction;
 use solana_sdk::pubkey::Pubkey;
 use solana_sdk::signature::{Keypair, Signer};
-use spl_governance::instruction::AddSignatoryAuthority;
 use spl_governance::state::enums::{MintMaxVoterWeightSource, VoteThreshold, VoteTipping};
 use spl_governance::state::realm::GoverningTokenConfigAccountArgs;
 use spl_governance::state::realm_config::GoverningTokenType;
@@ -17,6 +16,7 @@ pub struct GovernanceCookie {
     pub program_id: Pubkey,
 }
 
+#[allow(dead_code)]
 #[derive(Clone)]
 pub struct GovernanceRealmCookie {
     pub governance: GovernanceCookie,
@@ -32,11 +32,13 @@ pub struct TokenOwnerRecordCookie {
     pub address: Pubkey,
 }
 
+#[allow(dead_code)]
 pub struct AccountGovernanceCookie {
     pub address: Pubkey,
     pub governed_account: Pubkey,
 }
 
+#[allow(dead_code)]
 pub struct MintGovernanceCookie {
     pub address: Pubkey,
     pub governed_mint: Pubkey,
@@ -285,10 +287,6 @@ impl GovernanceRealmCookie {
             &self.community_token_mint.pubkey.unwrap(),
             &proposal_seed,
         );
-        let add_signatory_authority = AddSignatoryAuthority::ProposalOwner {
-            governance_authority: authority.pubkey(),
-            token_owner_record: voter.token_owner_record,
-        };
         let instructions = vec![
             vwr_instruction,
             spl_governance::instruction::create_proposal(
@@ -307,27 +305,18 @@ impl GovernanceRealmCookie {
                 true,
                 &proposal_seed,
             ),
-            spl_governance::instruction::add_signatory(
-                &self.governance.program_id,
-                &proposal,
-                &voter.token_owner_record,
-                &add_signatory_authority,
-                &payer.pubkey(),
-                &authority.pubkey(),
-            ),
             spl_governance::instruction::sign_off_proposal(
                 &self.governance.program_id,
                 &self.realm,
                 &governance,
                 &proposal,
                 &authority.pubkey(),
-                None,
+                Some(&voter.token_owner_record),
             ),
         ];
 
         let signer1 = Keypair::from_base58_string(&payer.to_base58_string());
         let signer2 = Keypair::from_base58_string(&authority.to_base58_string());
-
         self.governance
             .solana
             .process_transaction(&instructions, Some(&[&signer1, &signer2]))

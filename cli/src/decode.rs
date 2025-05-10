@@ -45,9 +45,9 @@ fn decode_voter(data: &[u8]) -> Result<()> {
         deposit_entries: voter
             .deposits
             .iter()
-            .filter(|d| d.is_used)
+            .filter(|d| d.is_used())
             .map(|d| DisplayDepositEntry {
-                allow_clawback: d.allow_clawback,
+                allow_clawback: d.allow_clawback(),
                 mint_index: d.voting_mint_config_idx,
                 unlocked_now: d.amount_unlocked(now_ts),
                 locked_now: d.amount_locked(now_ts),

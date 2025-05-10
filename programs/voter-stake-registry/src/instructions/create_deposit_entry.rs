@@ -78,7 +78,7 @@ pub fn create_deposit_entry(
         VsrError::OutOfBoundsDepositEntryIndex
     );
     let d_entry = &mut voter.deposits[deposit_entry_index as usize];
-    require!(!d_entry.is_used, VsrError::UnusedDepositEntryIndex);
+    require!(!d_entry.is_used(), VsrError::UnusedDepositEntryIndex);
 
     let curr_ts = registrar.clock_unix_timestamp();
     let start_ts = if let Some(v) = start_ts {
@@ -88,11 +88,15 @@ pub fn create_deposit_entry(
     };
 
     *d_entry = DepositEntry::default();
-    d_entry.is_used = true;
+    d_entry.is_used = 1;
     d_entry.voting_mint_config_idx = mint_idx as u8;
     d_entry.amount_deposited_native = 0;
     d_entry.amount_initially_locked_native = 0;
-    d_entry.allow_clawback = allow_clawback;
+    d_entry.allow_clawback = if allow_clawback {
+        1
+    } else {
+        0
+    };
     d_entry.lockup = Lockup::new_from_periods(kind, curr_ts, start_ts, periods)?;
 
     Ok(())

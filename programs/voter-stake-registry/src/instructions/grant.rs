@@ -156,7 +156,7 @@ pub fn grant(
     let free_entry_idx = voter
         .deposits
         .iter()
-        .position(|d_entry| !d_entry.is_used)
+        .position(|d_entry| !d_entry.is_used())
         .ok_or(VsrError::DepositEntryFull)?;
     let d_entry = &mut voter.deposits[free_entry_idx];
 
@@ -169,9 +169,13 @@ pub fn grant(
 
     // Set up a deposit.
     *d_entry = DepositEntry::default();
-    d_entry.is_used = true;
+    d_entry.is_used = 1;
     d_entry.voting_mint_config_idx = mint_idx as u8;
-    d_entry.allow_clawback = allow_clawback;
+    d_entry.allow_clawback = if allow_clawback {
+        1
+    } else {
+        0
+    };
     d_entry.lockup = Lockup::new_from_periods(kind, curr_ts, start_ts, periods)?;
 
     // Deposit tokens, locking them all.

@@ -6,7 +6,7 @@ use voter_stake_registry::state::LockupKind;
 
 mod program_test;
 
-#[allow(unaligned_references)]
+
 #[tokio::test]
 async fn test_grants() -> Result<(), TransportError> {
     let context = TestContext::new().await;
@@ -126,12 +126,12 @@ async fn test_grants() -> Result<(), TransportError> {
         .get_account::<voter_stake_registry::state::Voter>(voter.address)
         .await;
     let deposit = &voter_data.deposits[1];
-    assert_eq!(deposit.is_used, true);
+    assert_eq!(deposit.is_used, 1);
     let amount_deposited_native = deposit.amount_deposited_native;
     let amount_initially_locked_native = deposit.amount_initially_locked_native;
     assert_eq!(amount_deposited_native, 12000);
     assert_eq!(amount_initially_locked_native, 12000);
-    assert_eq!(deposit.allow_clawback, true);
+    assert_eq!(deposit.allow_clawback, 1);
     assert_eq!(deposit.lockup.kind, LockupKind::Monthly);
     assert_eq!(deposit.lockup.periods_total().unwrap(), 12);
 
@@ -163,12 +163,12 @@ async fn test_grants() -> Result<(), TransportError> {
         .get_account::<voter_stake_registry::state::Voter>(voter.address)
         .await;
     let deposit = &voter_data.deposits[2];
-    assert_eq!(deposit.is_used, true);
+    assert_eq!(deposit.is_used, 1);
     let amount_deposited_native = deposit.amount_deposited_native;
     let amount_initially_locked_native = deposit.amount_initially_locked_native;
     assert_eq!(amount_deposited_native, 12000);
     assert_eq!(amount_initially_locked_native, 12000);
-    assert_eq!(deposit.allow_clawback, true);
+    assert_eq!(deposit.allow_clawback, 1);
     assert_eq!(deposit.lockup.kind, LockupKind::Monthly);
     assert_eq!(deposit.lockup.periods_total().unwrap(), 12);
     assert_eq!(deposit.lockup.periods_left(now as i64).unwrap(), 10);

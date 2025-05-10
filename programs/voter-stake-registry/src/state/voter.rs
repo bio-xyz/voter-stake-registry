@@ -5,7 +5,8 @@ use anchor_lang::prelude::*;
 use spl_governance::state::token_owner_record;
 
 /// User account for minting voting rights.
-#[account(zero_copy(unsafe))]
+#[account(zero_copy)]
+#[repr(C)]
 pub struct Voter {
     pub voter_authority: Pubkey,
     pub registrar: Pubkey,
@@ -23,7 +24,7 @@ impl Voter {
         let curr_ts = registrar.clock_unix_timestamp();
         self.deposits
             .iter()
-            .filter(|d| d.is_used)
+            .filter(|d| d.is_used != 0)
             .try_fold(0u64, |sum, d| {
                 d.voting_power(
                     &registrar.voting_mints[d.voting_mint_config_idx as usize],
@@ -37,7 +38,7 @@ impl Voter {
     pub fn weight_baseline(&self, registrar: &Registrar) -> Result<u64> {
         self.deposits
             .iter()
-            .filter(|d| d.is_used)
+            .filter(|d| d.is_used())
             .try_fold(0u64, |sum, d| {
                 registrar.voting_mints[d.voting_mint_config_idx as usize]
                     .baseline_vote_weight(d.amount_deposited_native)
@@ -56,7 +57,7 @@ impl Voter {
         require_gte!(at_ts, curr_ts, VsrError::InvalidTimestampArguments);
         self.deposits
             .iter()
-            .filter(|d| d.is_used)
+            .filter(|d| d.is_used())
             .try_fold(0u64, |sum, d| {
                 let mint_config = &registrar.voting_mints[d.voting_mint_config_idx as usize];
                 let max_locked_vote_weight =
@@ -79,7 +80,7 @@ impl Voter {
             VsrError::OutOfBoundsDepositEntryIndex
         );
         let d = &mut self.deposits[index];
-        require!(d.is_used, VsrError::UnusedDepositEntryIndex);
+        require!(d.is_used(), VsrError::UnusedDepositEntryIndex);
         Ok(d)
     }
 

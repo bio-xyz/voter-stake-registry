@@ -1,5 +1,13 @@
 # Voter Stake Registry Changelog
 
+## v0.3.0 - 2022-5-10 - not on mainnet
+
+### Program
+- Upgrade Anchor to v0.31.1
+- Upgrade Solana Program to v1.18.26
+- fix zero_copy on Voter state.
+- remove zero_copy in DepositEntry and rely on AnchorSerialize
+
 ## v0.2.4 - 2022-5-4 - not on mainnet
 
 ### Program
@@ -32,5 +40,5 @@
 ## v0.2.0 - 2022-2-14 - mainnet deploy slot 121129331
 
 - First release.
-- Available on devnet at 4Q6WW2ouZ6V3iaNm56MTd5n2tnTm4C5fiH8miFHnAFHo
+- Available on devnet at 9SJqwCQ5AJkFtC7zxfFsF6Y5dm22XzN3JEhn3N14v23t
 - In use by the Mango DAO on mainnet at the same address.

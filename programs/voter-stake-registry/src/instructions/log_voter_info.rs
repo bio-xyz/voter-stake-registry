@@ -36,7 +36,7 @@ pub fn log_voter_info(
 
     msg!("deposit_entries");
     for (deposit_index, deposit) in voter.deposits.iter().enumerate() {
-        if !deposit.is_used
+        if !deposit.is_used()
             || deposit_index < deposit_entry_begin
             || deposit_index >= deposit_entry_begin + deposit_entry_count
         {
@@ -64,7 +64,7 @@ pub fn log_voter_info(
                 ),
             }),
         });
-
+        
         emit!(DepositEntryInfo {
             deposit_entry_index: deposit_index as u8,
             voting_mint_config_index: deposit.voting_mint_config_idx,

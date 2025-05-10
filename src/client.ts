@@ -4,7 +4,7 @@ import { VoterStakeRegistry } from './voter_stake_registry';
 import VoterStakeRegistryIDL from './voter_stake_registry.json';
 
 export const VSR_ID = new PublicKey(
-  '4Q6WW2ouZ6V3iaNm56MTd5n2tnTm4C5fiH8miFHnAFHo',
+  '9SJqwCQ5AJkFtC7zxfFsF6Y5dm22XzN3JEhn3N14v23t',
 );
 
 export class VsrClient {

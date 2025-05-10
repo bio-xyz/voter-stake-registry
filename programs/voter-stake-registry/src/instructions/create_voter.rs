@@ -1,3 +1,4 @@
+use crate::constants::ALLOWED_CPI_PROGRAMS;
 use crate::error::*;
 use crate::state::*;
 use anchor_lang::prelude::*;
@@ -57,16 +58,20 @@ pub fn create_voter(
 ) -> Result<()> {
     // Forbid creating voter accounts from CPI. The goal is to make automation
     // impossible that weakens some of the limitations intentionally imposed on
-    // locked tokens.
+    // locked tokens. Except from explicitly allowed programs.
     {
         let ixns = ctx.accounts.instructions.to_account_info();
         let current_index = tx_instructions::load_current_index_checked(&ixns)? as usize;
         let current_ixn = tx_instructions::load_instruction_at_checked(current_index, &ixns)?;
-        require_keys_eq!(
-            current_ixn.program_id,
-            *ctx.program_id,
-            VsrError::ForbiddenCpi
-        );
+
+        // Fast path: if the program_id matches this program, allow.
+        if current_ixn.program_id != *ctx.program_id {
+            // Otherwise, only allow if in ALLOWED_CPI_PROGRAMS.
+            require!(
+                ALLOWED_CPI_PROGRAMS.contains(&current_ixn.program_id),
+                VsrError::ForbiddenCpi
+            );
+        }
     }
 
     require_eq!(voter_bump, ctx.bumps.voter);

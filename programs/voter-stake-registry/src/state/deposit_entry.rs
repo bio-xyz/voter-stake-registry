@@ -6,8 +6,8 @@ use std::cmp::min;
 use std::convert::TryFrom;
 
 /// Bookkeeping for a single deposit for a given mint and lockup schedule.
-#[zero_copy(unsafe)]
-#[derive(Default)]
+#[repr(C)]
+#[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, Debug, bytemuck::Zeroable, bytemuck::Pod, Default)]
 pub struct DepositEntry {
     // Locked state.
     pub lockup: Lockup,
@@ -30,10 +30,10 @@ pub struct DepositEntry {
     pub amount_initially_locked_native: u64,
 
     // True if the deposit entry is being used.
-    pub is_used: bool,
+    pub is_used: u8,
 
     /// If the clawback authority is allowed to extract locked tokens.
-    pub allow_clawback: bool,
+    pub allow_clawback: u8,
 
     // Points to the VotingMintConfig this deposit uses.
     pub voting_mint_config_idx: u8,
@@ -145,7 +145,7 @@ impl DepositEntry {
         max_locked_vote_weight: u64,
         lockup_saturation_secs: u64,
     ) -> Result<u64> {
-        let mut altered = *self;
+        let mut altered = self.clone();
 
         // Trigger the unlock phase for constant lockups
         if self.lockup.kind == LockupKind::Constant {
@@ -376,6 +376,16 @@ impl DepositEntry {
         require_eq!(self.vested(curr_ts)?, 0, VsrError::InternalProgramError);
         Ok(())
     }
+
+    /// Returns if deposit_entry is used.
+    pub fn is_used(&self) -> bool {
+        self.is_used != 0
+    }
+
+    /// Returns if deposit_entry clawback is allowed
+    pub fn allow_clawback(&self) -> bool {
+        self.allow_clawback != 0
+    }
 }
 
 #[cfg(test)]
@@ -389,8 +399,8 @@ mod tests {
             amount_deposited_native: 35,
             amount_initially_locked_native: 30,
             lockup: Lockup::new_from_periods(LockupKind::Monthly, 1000, 1000, 3).unwrap(),
-            is_used: true,
-            allow_clawback: false,
+            is_used: 1,
+            allow_clawback: 0,
             voting_mint_config_idx: 0,
             reserved: [0; 29],
         };
@@ -463,8 +473,8 @@ mod tests {
                 kind: Daily,
                 reserved: [0; 15],
             },
-            is_used: true,
-            allow_clawback: false,
+            is_used: 1,
+            allow_clawback: 0,
             voting_mint_config_idx: 0,
             reserved: [0; 29],
         };
@@ -535,8 +545,8 @@ mod tests {
                 kind: Constant,
                 reserved: [0; 15],
             },
-            is_used: true,
-            allow_clawback: false,
+            is_used: 1,
+            allow_clawback: 0,
             voting_mint_config_idx: 0,
             reserved: [0; 29],
         };

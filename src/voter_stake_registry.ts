@@ -5,10 +5,10 @@
  * IDL can be found at `target/idl/voter_stake_registry.json`.
  */
 export type VoterStakeRegistry = {
-  "address": "4Q6WW2ouZ6V3iaNm56MTd5n2tnTm4C5fiH8miFHnAFHo",
+  "address": "9SJqwCQ5AJkFtC7zxfFsF6Y5dm22XzN3JEhn3N14v23t",
   "metadata": {
     "name": "voterStakeRegistry",
-    "version": "0.2.4",
+    "version": "0.3.0",
     "spec": "0.1.0",
     "description": "a voter weight plugin for spl-governance"
   },
@@ -1870,16 +1870,234 @@ export type VoterStakeRegistry = {
       ]
     }
   ],
+  "events": [
+    {
+      "name": "depositEntryInfo",
+      "discriminator": [
+        44,
+        254,
+        32,
+        111,
+        41,
+        39,
+        5,
+        148
+      ]
+    },
+    {
+      "name": "voterInfo",
+      "discriminator": [
+        95,
+        159,
+        197,
+        100,
+        178,
+        17,
+        75,
+        128
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "invalidRate",
+      "msg": "Exchange rate must be greater than zero"
+    },
+    {
+      "code": 6001,
+      "name": "ratesFull",
+      "msg": ""
+    },
+    {
+      "code": 6002,
+      "name": "votingMintNotFound",
+      "msg": ""
+    },
+    {
+      "code": 6003,
+      "name": "depositEntryNotFound",
+      "msg": ""
+    },
+    {
+      "code": 6004,
+      "name": "depositEntryFull",
+      "msg": ""
+    },
+    {
+      "code": 6005,
+      "name": "votingTokenNonZero",
+      "msg": ""
+    },
+    {
+      "code": 6006,
+      "name": "outOfBoundsDepositEntryIndex",
+      "msg": ""
+    },
+    {
+      "code": 6007,
+      "name": "unusedDepositEntryIndex",
+      "msg": ""
+    },
+    {
+      "code": 6008,
+      "name": "insufficientUnlockedTokens",
+      "msg": ""
+    },
+    {
+      "code": 6009,
+      "name": "unableToConvert",
+      "msg": ""
+    },
+    {
+      "code": 6010,
+      "name": "invalidLockupPeriod",
+      "msg": ""
+    },
+    {
+      "code": 6011,
+      "name": "invalidEndTs",
+      "msg": ""
+    },
+    {
+      "code": 6012,
+      "name": "invalidDays",
+      "msg": ""
+    },
+    {
+      "code": 6013,
+      "name": "votingMintConfigIndexAlreadyInUse",
+      "msg": ""
+    },
+    {
+      "code": 6014,
+      "name": "outOfBoundsVotingMintConfigIndex",
+      "msg": ""
+    },
+    {
+      "code": 6015,
+      "name": "invalidDecimals",
+      "msg": "Exchange rate decimals cannot be larger than registrar decimals"
+    },
+    {
+      "code": 6016,
+      "name": "invalidToDepositAndWithdrawInOneSlot",
+      "msg": ""
+    },
+    {
+      "code": 6017,
+      "name": "shouldBeTheFirstIxInATx",
+      "msg": ""
+    },
+    {
+      "code": 6018,
+      "name": "forbiddenCpi",
+      "msg": ""
+    },
+    {
+      "code": 6019,
+      "name": "invalidMint",
+      "msg": ""
+    },
+    {
+      "code": 6020,
+      "name": "debugInstruction",
+      "msg": ""
+    },
+    {
+      "code": 6021,
+      "name": "clawbackNotAllowedOnDeposit",
+      "msg": ""
+    },
+    {
+      "code": 6022,
+      "name": "depositStillLocked",
+      "msg": ""
+    },
+    {
+      "code": 6023,
+      "name": "invalidAuthority",
+      "msg": ""
+    },
+    {
+      "code": 6024,
+      "name": "invalidTokenOwnerRecord",
+      "msg": ""
+    },
+    {
+      "code": 6025,
+      "name": "invalidRealmAuthority",
+      "msg": ""
+    },
+    {
+      "code": 6026,
+      "name": "voterWeightOverflow",
+      "msg": ""
+    },
+    {
+      "code": 6027,
+      "name": "lockupSaturationMustBePositive",
+      "msg": ""
+    },
+    {
+      "code": 6028,
+      "name": "votingMintConfiguredWithDifferentIndex",
+      "msg": ""
+    },
+    {
+      "code": 6029,
+      "name": "internalProgramError",
+      "msg": ""
+    },
+    {
+      "code": 6030,
+      "name": "insufficientLockedTokens",
+      "msg": ""
+    },
+    {
+      "code": 6031,
+      "name": "mustKeepTokensLocked",
+      "msg": ""
+    },
+    {
+      "code": 6032,
+      "name": "invalidLockupKind",
+      "msg": ""
+    },
+    {
+      "code": 6033,
+      "name": "invalidChangeToClawbackDepositEntry",
+      "msg": ""
+    },
+    {
+      "code": 6034,
+      "name": "internalErrorBadLockupVoteWeight",
+      "msg": ""
+    },
+    {
+      "code": 6035,
+      "name": "depositStartTooFarInFuture",
+      "msg": ""
+    },
+    {
+      "code": 6036,
+      "name": "vaultTokenNonZero",
+      "msg": ""
+    },
+    {
+      "code": 6037,
+      "name": "invalidTimestampArguments",
+      "msg": ""
+    }
+  ],
   "types": [
     {
       "name": "depositEntry",
       "docs": [
         "Bookkeeping for a single deposit for a given mint and lockup schedule."
       ],
-      "serialization": "bytemuckunsafe",
       "repr": {
-        "kind": "rust",
-        "packed": true
+        "kind": "c"
       },
       "type": {
         "kind": "struct",
@@ -2033,10 +2251,8 @@ export type VoterStakeRegistry = {
     },
     {
       "name": "lockup",
-      "serialization": "bytemuckunsafe",
       "repr": {
-        "kind": "rust",
-        "packed": true
+        "kind": "c"
       },
       "type": {
         "kind": "struct",
@@ -2223,10 +2439,9 @@ export type VoterStakeRegistry = {
       "docs": [
         "User account for minting voting rights."
       ],
-      "serialization": "bytemuckunsafe",
+      "serialization": "bytemuck",
       "repr": {
-        "kind": "rust",
-        "packed": true
+        "kind": "c"
       },
       "type": {
         "kind": "struct",

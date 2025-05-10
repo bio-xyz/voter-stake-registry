@@ -15,6 +15,7 @@ pub struct AddinCookie {
     pub program_id: Pubkey,
 }
 
+#[allow(dead_code)]
 pub struct RegistrarCookie {
     pub address: Pubkey,
     pub authority: Pubkey,
@@ -26,6 +27,7 @@ pub struct VotingMintConfigCookie {
     pub mint: MintCookie,
 }
 
+#[allow(dead_code)]
 pub struct VoterCookie {
     pub address: Pubkey,
     pub authority: Pubkey,

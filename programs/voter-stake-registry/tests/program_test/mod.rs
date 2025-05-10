@@ -14,6 +14,7 @@ pub use addin::*;
 pub use cookies::*;
 pub use governance::*;
 pub use solana::*;
+#[allow(unused_imports)]
 pub use utils::*;
 
 pub mod addin;
@@ -79,6 +80,7 @@ impl Log for LoggerWrapper {
     fn flush(&self) {}
 }
 
+#[allow(dead_code)]
 pub struct TestContext {
     pub solana: Arc<SolanaCookie>,
     pub governance: GovernanceCookie,
@@ -116,7 +118,7 @@ impl TestContext {
         test.add_program(
             "spl_governance",
             governance_program_id,
-            processor!(spl_governance::processor::process_instruction),
+            None,
         );
 
         // Setup the environment
