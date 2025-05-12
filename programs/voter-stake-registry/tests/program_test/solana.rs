@@ -73,26 +73,30 @@ impl SolanaCookie {
     }
 
     #[allow(dead_code)]
-    pub async fn create_token_account(&self, owner: &Pubkey, mint: Pubkey) -> Pubkey {
+    pub async fn create_token_account(&self, owner: &Pubkey, mint: Pubkey, is_token_2022: bool) -> Pubkey {
         let keypair = Keypair::new();
         let rent = self.rent.minimum_balance(spl_token::state::Account::LEN);
 
-        let instructions = [
-            system_instruction::create_account(
-                &self.context.borrow().payer.pubkey(),
-                &keypair.pubkey(),
-                rent,
-                spl_token::state::Account::LEN as u64,
-                &spl_token::id(),
-            ),
-            spl_token::instruction::initialize_account(
-                &spl_token::id(),
-                &keypair.pubkey(),
-                &mint,
-                owner,
-            )
-            .unwrap(),
-        ];
+        let create_account_ix = system_instruction::create_account(
+            &self.context.borrow().payer.pubkey(),
+            &keypair.pubkey(),
+            rent,
+            spl_token::state::Account::LEN as u64,
+            &spl_token::id(),
+        );
+        let token_program_id = if is_token_2022 {
+            &spl_token_2022::id()
+        } else {
+            &spl_token::id()
+        };
+        let initialize_account_ix = spl_token_2022::instruction::initialize_account(
+            token_program_id,
+            &keypair.pubkey(),
+            &mint,
+            owner,
+        ).unwrap();
+
+        let instructions = [create_account_ix, initialize_account_ix];
 
         self.process_transaction(&instructions, Some(&[&keypair]))
             .await

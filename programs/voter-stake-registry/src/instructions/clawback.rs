@@ -1,8 +1,10 @@
 use crate::error::*;
 use crate::state::*;
+use crate::tools::transfer_spl_tokens_signed;
 use anchor_lang::prelude::*;
-use anchor_spl::token;
-use anchor_spl::token::{Token, TokenAccount};
+use anchor_spl::token_interface::Mint;
+use anchor_spl::token_interface::TokenAccount;
+use anchor_spl::token_interface::TokenInterface;
 
 #[derive(Accounts)]
 pub struct Clawback<'info> {
@@ -22,26 +24,16 @@ pub struct Clawback<'info> {
     #[account(
         mut,
         associated_token::authority = voter,
-        associated_token::mint = destination.mint,
+        associated_token::mint = mint,
     )]
-    pub vault: Box<Account<'info, TokenAccount>>,
+    pub vault: Box<InterfaceAccount<'info, TokenAccount>>,
+
+    pub mint: Box<InterfaceAccount<'info, Mint>>,
 
     #[account(mut)]
-    pub destination: Box<Account<'info, TokenAccount>>,
+    pub destination: Box<InterfaceAccount<'info, TokenAccount>>,
 
-    pub token_program: Program<'info, Token>,
-}
-
-impl<'info> Clawback<'info> {
-    pub fn transfer_ctx(&self) -> CpiContext<'_, '_, '_, 'info, token::Transfer<'info>> {
-        let program = self.token_program.to_account_info();
-        let accounts = token::Transfer {
-            from: self.vault.to_account_info(),
-            to: self.destination.to_account_info(),
-            authority: self.voter.to_account_info(),
-        };
-        CpiContext::new(program, accounts)
-    }
+    pub token_program: Interface<'info, TokenInterface>,
 }
 
 /// Claws back locked tokens from a deposit entry.
@@ -52,7 +44,7 @@ impl<'info> Clawback<'info> {
 ///
 /// The instruction will always reclaim all locked tokens, while leaving tokens
 /// that have already vested in place.
-pub fn clawback(ctx: Context<Clawback>, deposit_entry_index: u8) -> Result<()> {
+pub fn clawback<'info>(ctx: Context<'_, '_, '_, 'info, Clawback<'info>>, deposit_entry_index: u8) -> Result<()> {
     let locked_amount = {
         // Load the accounts.
         let registrar = &ctx.accounts.registrar.load()?;
@@ -91,9 +83,16 @@ pub fn clawback(ctx: Context<Clawback>, deposit_entry_index: u8) -> Result<()> {
         // Transfer the tokens to withdraw.
         let voter = &mut ctx.accounts.voter.load()?;
         let voter_seeds = voter_seeds!(voter);
-        token::transfer(
-            ctx.accounts.transfer_ctx().with_signer(&[voter_seeds]),
+        transfer_spl_tokens_signed(
+            &ctx.accounts.vault.to_account_info(),
+            &ctx.accounts.destination.to_account_info(),
+            &ctx.accounts.voter.to_account_info(),
+            voter_seeds,
             locked_amount,
+            &ctx.accounts.token_program.to_account_info(),
+            &ctx.accounts.mint.to_account_info(),
+            &ctx.remaining_accounts,
+            ctx.accounts.mint.decimals,
         )?;
     }
 

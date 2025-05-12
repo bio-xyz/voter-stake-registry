@@ -434,6 +434,7 @@ impl AddinCookie {
                 voter: voter.address,
                 vault,
                 destination: token_address,
+                mint: voting_mint.mint.pubkey.unwrap(),
                 realm_authority: realm_authority.pubkey(),
                 token_program: spl_token::id(),
             },

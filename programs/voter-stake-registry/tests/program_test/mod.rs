@@ -9,6 +9,7 @@ use solana_sdk::{
     signature::{Keypair, Signer},
 };
 use spl_token::state::*;
+use spl_token_2022::id as spl_token_2022_id;
 
 pub use addin::*;
 pub use cookies::*;
@@ -143,7 +144,17 @@ impl TestContext {
                 pubkey: None,
                 authority: Keypair::new(),
             }, // symbol: "USDC".to_string()
+            MintCookie {
+                index: 1,
+                decimals: 6,
+                unit: 10u64.pow(6) as f64,
+                base_lot: 0 as f64,
+                quote_lot: 0 as f64,
+                pubkey: None,
+                authority: Keypair::new(),
+            }, // symbol: "token 2022".to_string()
         ];
+
         // Add mints in loop
         for mint_index in 0..mints.len() {
             let mint_pk: Pubkey;
@@ -152,6 +163,13 @@ impl TestContext {
             } else {
                 mint_pk = mints[mint_index].pubkey.unwrap();
             }
+
+            // Use spl_token_2022::id() for the last mint only
+            let token_program_id = if mint_index == mints.len() - 1 {
+                &spl_token_2022_id()
+            } else {
+                &spl_token::id()
+            };
 
             test.add_packable_account(
                 mint_pk,
@@ -162,10 +180,11 @@ impl TestContext {
                     decimals: mints[mint_index].decimals,
                     ..Mint::default()
                 },
-                &spl_token::id(),
+                token_program_id,
             );
             mints[mint_index].pubkey = Some(mint_pk);
         }
+
         let quote_index = mints.len() - 1;
 
         // Users
@@ -187,6 +206,12 @@ impl TestContext {
             let mut token_accounts = Vec::new();
             for mint_index in 0..mints.len() {
                 let token_key = Pubkey::new_unique();
+                // Use spl_token_2022::id() for the last mint only
+                let token_program_id = if mint_index == mints.len() - 1 {
+                    &spl_token_2022_id()
+                } else {
+                    &spl_token::id()
+                };
                 test.add_packable_account(
                     token_key,
                     u32::MAX as u64,
@@ -197,7 +222,7 @@ impl TestContext {
                         state: spl_token::state::AccountState::Initialized,
                         ..spl_token::state::Account::default()
                     },
-                    &spl_token::id(),
+                    token_program_id,
                 );
 
                 token_accounts.push(token_key);

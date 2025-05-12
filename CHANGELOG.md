@@ -1,12 +1,13 @@
 # Voter Stake Registry Changelog
-
 ## v0.3.0 - 2022-5-10 - not on mainnet
 
 ### Program
 - Upgrade Anchor to v0.31.1
-- Upgrade Solana Program to v1.18.26
+- Upgrade Solana Program to v2.2.1
 - fix zero_copy on Voter state.
 - remove zero_copy in DepositEntry and rely on AnchorSerialize
+- fix the vote_weight_record, to use the borsh deserializer and use the latest Discriminator trait
+- Add Token2022 support
 
 ## v0.2.4 - 2022-5-4 - not on mainnet
 

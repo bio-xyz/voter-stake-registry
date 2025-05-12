@@ -155,7 +155,10 @@ pub mod voter_stake_registry {
         )
     }
 
-    pub fn clawback(ctx: Context<Clawback>, deposit_entry_index: u8) -> Result<()> {
+    pub fn clawback<'info>(
+        ctx: Context<'_, '_, 'info, 'info, Clawback<'info>>,
+        deposit_entry_index: u8,
+    ) -> Result<()> {
         instructions::clawback(ctx, deposit_entry_index)
     }
 
