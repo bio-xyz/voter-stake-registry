@@ -8253,7 +8253,6 @@ dependencies = [
  "borsh 0.10.4",
  "bytemuck",
  "env_logger",
- "getrandom 0.2.10",
  "log",
  "serde",
  "solana-logger",
