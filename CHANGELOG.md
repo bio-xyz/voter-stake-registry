@@ -1,6 +1,6 @@
 # Voter Stake Registry Changelog
 
-## v0.3.0 - 2022-5-10 - not on mainnet
+## v0.3.0 - 2022-5-10 - on mainnet
 
 ### Program
 - Upgrade Anchor to v0.31.1
