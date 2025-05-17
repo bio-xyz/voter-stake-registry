@@ -1,5 +1,4 @@
-use anchor_lang::solana_program::pubkey::Pubkey;
-use anchor_lang::pubkey;
+use spl_governance::solana_program::{pubkey, pubkey::Pubkey};
 
 pub const ALLOWED_CPI_PROGRAMS: &[Pubkey] = &[
     // Squads V4 Program

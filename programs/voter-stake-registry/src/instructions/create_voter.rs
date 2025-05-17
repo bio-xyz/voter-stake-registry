@@ -4,6 +4,7 @@ use crate::state::*;
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::sysvar::instructions as tx_instructions;
 use std::mem::size_of;
+use anchor_lang::Discriminator;
 
 #[derive(Accounts)]
 pub struct CreateVoter<'info> {

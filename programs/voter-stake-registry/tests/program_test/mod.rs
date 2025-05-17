@@ -8,7 +8,7 @@ use solana_sdk::{
     pubkey::Pubkey,
     signature::{Keypair, Signer},
 };
-use spl_token::state::*;
+use anchor_spl::token::spl_token::{self, state::*};
 
 pub use addin::*;
 pub use cookies::*;
@@ -208,7 +208,7 @@ impl TestContext {
             });
         }
 
-        let context = test.start_with_context().await;
+        let mut context = test.start_with_context().await;
         let rent = context.banks_client.get_rent().await.unwrap();
 
         let solana = Arc::new(SolanaCookie {

@@ -3,6 +3,7 @@ use crate::state::deposit_entry::DepositEntry;
 use crate::state::registrar::Registrar;
 use anchor_lang::prelude::*;
 use spl_governance::state::token_owner_record;
+use solana_program::pubkey::Pubkey;
 
 /// User account for minting voting rights.
 #[account(zero_copy)]

@@ -7,6 +7,7 @@ use solana_sdk::{
     signature::{Keypair, Signer},
 };
 
+use anchor_spl::token::spl_token;
 use crate::*;
 
 #[derive(Clone)]

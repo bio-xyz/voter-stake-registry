@@ -2,6 +2,8 @@ use crate::error::*;
 use crate::state::voting_mint_config::VotingMintConfig;
 use anchor_lang::prelude::*;
 use anchor_spl::token::Mint;
+use solana_program::pubkey::Pubkey;
+
 
 /// Instance of a voting rights distributor.
 #[account(zero_copy)]

@@ -13,6 +13,7 @@ use solana_sdk::{
     signature::{Keypair, Signer},
     transaction::Transaction,
 };
+use anchor_spl::token::spl_token;
 
 pub struct SolanaCookie {
     pub context: RefCell<ProgramTestContext>,
@@ -29,7 +30,7 @@ impl SolanaCookie {
     ) -> Result<(), BanksClientError> {
         *self.program_output.write().unwrap() = super::ProgramOutput::default();
 
-        let context = self.context.borrow_mut();
+        let mut context = self.context.borrow_mut();
 
         let mut transaction =
             Transaction::new_with_payer(&instructions, Some(&context.payer.pubkey()));

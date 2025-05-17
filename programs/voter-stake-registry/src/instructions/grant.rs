@@ -5,6 +5,7 @@ use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{self, Mint, Token, TokenAccount};
 use std::convert::TryFrom;
 use std::mem::size_of;
+use anchor_lang::Discriminator;
 
 #[derive(Accounts)]
 pub struct Grant<'info> {
