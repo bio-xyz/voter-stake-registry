@@ -66,7 +66,7 @@ fn decode_voter(data: &[u8]) -> Result<()> {
 // Read a sequence of base64 encoded accounts from stdin
 // and write their decoded versions back out as JSON.
 pub fn decode_account() -> Result<()> {
-    let account_types = HashMap::from([(Voter::discriminator(), &decode_voter)]);
+    let account_types = HashMap::from([(Voter::DISCRIMINATOR, &decode_voter)]);
 
     for line in io::stdin().lock().lines() {
         let data = base64::decode(line?)?;

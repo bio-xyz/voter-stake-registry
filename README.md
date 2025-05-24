@@ -33,7 +33,7 @@ Users can:
 # Development
 
 ## Rust
-* Built and developed using - rust stable(`rustc 1.81.0 (eeb90cda1 2024-09-04)`)
+* Built and developed using - rust stable(`rustc 1.88.0-nightly (0b45675cf 2025-03-31)`)
 * Run rust based tests - `cargo test-sbf`
 * `run-generate-anchor-types.sh` generates latest anchor types file and writes to `./voter_stake_registry.ts`
 * To install the typescript client, do - `yarn add @blockworks-foundation/voter-stake-registry-client`
@@ -53,6 +53,7 @@ async function main() {
   const wallet = new Wallet(Keypair.generate());
   const provider = new Provider(connection, wallet, options);
   const client = await VsrClient.connect(provider, true);
+}
 ```
 
 <img width="708" alt="image" src="https://user-images.githubusercontent.com/89031858/148725266-29459e80-623e-45c4-952d-5d9d1f0f15bc.png">
