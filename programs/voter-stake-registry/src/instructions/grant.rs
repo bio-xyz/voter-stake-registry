@@ -106,11 +106,8 @@ pub fn grant(
     allow_clawback: bool,
     amount: u64,
 ) -> Result<()> {
-    require_eq!(voter_bump, *ctx.bumps.get("voter").unwrap());
-    require_eq!(
-        voter_weight_record_bump,
-        *ctx.bumps.get("voter_weight_record").unwrap()
-    );
+    require_eq!(voter_bump, ctx.bumps.voter);
+    require_eq!(voter_weight_record_bump, ctx.bumps.voter_weight_record);
 
     // Load accounts.
     let registrar = &ctx.accounts.registrar.load()?;
@@ -148,8 +145,7 @@ pub fn grant(
         // Note that vote_weight_record is not an Anchor account, is_freshly_initialized()
         // would not work.
         let voter_weight_record = &mut ctx.accounts.voter_weight_record;
-        voter_weight_record.account_discriminator =
-            spl_governance_addin_api::voter_weight::VoterWeightRecord::ACCOUNT_DISCRIMINATOR;
+        voter_weight_record.account_discriminator = VoterWeightRecord::discriminator();
         voter_weight_record.realm = registrar.realm;
         voter_weight_record.governing_token_mint = registrar.realm_governing_token_mint;
         voter_weight_record.governing_token_owner = voter_authority;
@@ -159,7 +155,7 @@ pub fn grant(
     let free_entry_idx = voter
         .deposits
         .iter()
-        .position(|d_entry| !d_entry.is_used)
+        .position(|d_entry| !d_entry.is_used())
         .ok_or(VsrError::DepositEntryFull)?;
     let d_entry = &mut voter.deposits[free_entry_idx];
 
@@ -172,9 +168,13 @@ pub fn grant(
 
     // Set up a deposit.
     *d_entry = DepositEntry::default();
-    d_entry.is_used = true;
+    d_entry.is_used = 1;
     d_entry.voting_mint_config_idx = mint_idx as u8;
-    d_entry.allow_clawback = allow_clawback;
+    d_entry.allow_clawback = if allow_clawback {
+        1
+    } else {
+        0
+    };
     d_entry.lockup = Lockup::new_from_periods(kind, curr_ts, start_ts, periods)?;
 
     // Deposit tokens, locking them all.

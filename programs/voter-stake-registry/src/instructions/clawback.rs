@@ -64,7 +64,7 @@ pub fn clawback(ctx: Context<Clawback>, deposit_entry_index: u8) -> Result<()> {
         // Get the deposit being clawed back from.
         let deposit_entry = voter.active_deposit_mut(deposit_entry_index)?;
         require!(
-            deposit_entry.allow_clawback,
+            deposit_entry.allow_clawback(),
             VsrError::ClawbackNotAllowedOnDeposit
         );
 
@@ -83,7 +83,7 @@ pub fn clawback(ctx: Context<Clawback>, deposit_entry_index: u8) -> Result<()> {
         let curr_ts = registrar.clock_unix_timestamp();
         deposit_entry.amount_initially_locked_native = 0;
         deposit_entry.lockup = Lockup::new_from_periods(LockupKind::None, curr_ts, curr_ts, 0)?;
-        deposit_entry.allow_clawback = false;
+        deposit_entry.allow_clawback = 0;
         locked_amount
     };
 

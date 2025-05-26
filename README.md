@@ -33,17 +33,17 @@ Users can:
 # Development
 
 ## Rust
-* Built and developed using - rust stable(`rustc 1.57.0 (f1edd0429 2021-11-29)`)
+* Built and developed using - rust stable(`rustc 1.88.0-nightly (0b45675cf 2025-03-31)`)
 * Run rust based tests - `cargo test-sbf`
 * `run-generate-anchor-types.sh` generates latest anchor types file and writes to `./voter_stake_registry.ts`
 * To install the typescript client, do - `yarn add @blockworks-foundation/voter-stake-registry-client`
 * usage
 
 ## Node/Typescript
-* Built and developed using - node (`v16.13.1`)
+* Built and developed using - node (`v23.3.0`)
 * Usage
-```
-import { Provider, Wallet } from '@project-serum/anchor';
+```ts
+import { Provider, Wallet } from '@coral-xyz/anchor';
 import { Connection, Keypair } from '@solana/web3.js';
 import { VsrClient } from '@blockworks-foundation/voter-stake-registry-client';
 
@@ -53,6 +53,7 @@ async function main() {
   const wallet = new Wallet(Keypair.generate());
   const provider = new Provider(connection, wallet, options);
   const client = await VsrClient.connect(provider, true);
+}
 ```
 
 <img width="708" alt="image" src="https://user-images.githubusercontent.com/89031858/148725266-29459e80-623e-45c4-952d-5d9d1f0f15bc.png">
@@ -69,8 +70,8 @@ Before compiling, look at:
 
 For testing purposes, an instance of voter-stake-registry is deployed on devnet:
 ```
-voter-stake-registry:  4Q6WW2ouZ6V3iaNm56MTd5n2tnTm4C5fiH8miFHnAFHo
-spl-governance master: i7BqPFNUvB7yqwVeCRJHrtZVwRsZZNUJTdBm7Vg2cDb
+voter-stake-registry:  9SJqwCQ5AJkFtC7zxfFsF6Y5dm22XzN3JEhn3N14v23t
+spl-governance master: GovER5Lthms3bLBqWub97yVrMmEogzX7xNjdXpPPCVZw
 ```
 
 # Usage Scenarios

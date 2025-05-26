@@ -1,6 +1,7 @@
 use crate::error::*;
 use crate::vote_weight_record;
 use anchor_lang::prelude::*;
+use bytemuck::{Pod, Zeroable};
 use std::convert::TryFrom;
 
 // Generate a VoteWeightRecord Anchor wrapper, owned by the current program.
@@ -26,7 +27,8 @@ pub const MAX_LOCKUP_PERIODS: u32 = 365 * 200;
 
 pub const MAX_LOCKUP_IN_FUTURE_SECS: i64 = 100 * 365 * 24 * 60 * 60;
 
-#[zero_copy]
+#[repr(C)]
+#[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, Debug, bytemuck::Zeroable, bytemuck::Pod)]
 pub struct Lockup {
     /// Start of the lockup.
     ///
@@ -163,7 +165,7 @@ impl Lockup {
 }
 
 #[repr(u8)]
-#[derive(AnchorSerialize, AnchorDeserialize, Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(AnchorSerialize, AnchorDeserialize, Debug, Clone, Copy, PartialEq, Eq, Zeroable)]
 pub enum LockupKind {
     /// No lockup, tokens can be withdrawn as long as not engaged in a proposal.
     None,
@@ -218,6 +220,8 @@ impl LockupKind {
         }
     }
 }
+
+unsafe impl Pod for LockupKind {}
 
 #[cfg(test)]
 mod tests {
@@ -785,11 +789,11 @@ mod tests {
         let start_ts = 1634929833;
         let end_ts = start_ts + days_to_secs(t.days_total);
         let d = DepositEntry {
-            is_used: true,
+            is_used: 1,
             voting_mint_config_idx: 0,
             amount_deposited_native: t.amount_deposited,
             amount_initially_locked_native: t.amount_deposited,
-            allow_clawback: false,
+            allow_clawback: 0,
             lockup: Lockup {
                 start_ts,
                 end_ts,

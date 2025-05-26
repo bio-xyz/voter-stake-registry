@@ -1,13 +1,7 @@
-/**
- * Program IDL in camelCase format in order to be used in JS/TS.
- *
- * Note that this is only a type helper and is not the actual IDL. The original
- * IDL can be found at `target/idl/voter_stake_registry.json`.
- */
-export type VoterStakeRegistry = {
+{
   "address": "9SJqwCQ5AJkFtC7zxfFsF6Y5dm22XzN3JEhn3N14v23t",
   "metadata": {
-    "name": "voterStakeRegistry",
+    "name": "voter_stake_registry",
     "version": "0.3.0",
     "spec": "0.1.0",
     "description": "a voter weight plugin for spl-governance"
@@ -79,7 +73,7 @@ export type VoterStakeRegistry = {
           ]
         },
         {
-          "name": "realmAuthority",
+          "name": "realm_authority",
           "signer": true,
           "relations": [
             "registrar"
@@ -160,7 +154,7 @@ export type VoterStakeRegistry = {
               {
                 "kind": "account",
                 "path": "destination.mint",
-                "account": "tokenAccount"
+                "account": "TokenAccount"
               }
             ],
             "program": {
@@ -207,19 +201,19 @@ export type VoterStakeRegistry = {
           "writable": true
         },
         {
-          "name": "tokenProgram",
+          "name": "token_program",
           "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         }
       ],
       "args": [
         {
-          "name": "depositEntryIndex",
+          "name": "deposit_entry_index",
           "type": "u8"
         }
       ]
     },
     {
-      "name": "closeDepositEntry",
+      "name": "close_deposit_entry",
       "discriminator": [
         236,
         190,
@@ -252,13 +246,13 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
         },
         {
-          "name": "voterAuthority",
+          "name": "voter_authority",
           "signer": true,
           "relations": [
             "voter"
@@ -267,13 +261,13 @@ export type VoterStakeRegistry = {
       ],
       "args": [
         {
-          "name": "depositEntryIndex",
+          "name": "deposit_entry_index",
           "type": "u8"
         }
       ]
     },
     {
-      "name": "closeVoter",
+      "name": "close_voter",
       "discriminator": [
         117,
         35,
@@ -309,31 +303,31 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
         },
         {
-          "name": "voterAuthority",
+          "name": "voter_authority",
           "signer": true,
           "relations": [
             "voter"
           ]
         },
         {
-          "name": "solDestination",
+          "name": "sol_destination",
           "writable": true
         },
         {
-          "name": "tokenProgram",
+          "name": "token_program",
           "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         }
       ],
       "args": []
     },
     {
-      "name": "configureVotingMint",
+      "name": "configure_voting_mint",
       "discriminator": [
         113,
         153,
@@ -350,7 +344,7 @@ export type VoterStakeRegistry = {
           "writable": true
         },
         {
-          "name": "realmAuthority",
+          "name": "realm_authority",
           "signer": true,
           "relations": [
             "registrar"
@@ -369,23 +363,23 @@ export type VoterStakeRegistry = {
           "type": "u16"
         },
         {
-          "name": "digitShift",
+          "name": "digit_shift",
           "type": "i8"
         },
         {
-          "name": "baselineVoteWeightScaledFactor",
+          "name": "baseline_vote_weight_scaled_factor",
           "type": "u64"
         },
         {
-          "name": "maxExtraLockupVoteWeightScaledFactor",
+          "name": "max_extra_lockup_vote_weight_scaled_factor",
           "type": "u64"
         },
         {
-          "name": "lockupSaturationSecs",
+          "name": "lockup_saturation_secs",
           "type": "u64"
         },
         {
-          "name": "grantAuthority",
+          "name": "grant_authority",
           "type": {
             "option": "pubkey"
           }
@@ -393,7 +387,7 @@ export type VoterStakeRegistry = {
       ]
     },
     {
-      "name": "createDepositEntry",
+      "name": "create_deposit_entry",
       "discriminator": [
         185,
         131,
@@ -432,7 +426,7 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
@@ -485,7 +479,7 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "depositMint"
+                "path": "deposit_mint"
               }
             ],
             "program": {
@@ -528,7 +522,7 @@ export type VoterStakeRegistry = {
           }
         },
         {
-          "name": "voterAuthority",
+          "name": "voter_authority",
           "signer": true,
           "relations": [
             "voter"
@@ -540,18 +534,18 @@ export type VoterStakeRegistry = {
           "signer": true
         },
         {
-          "name": "depositMint"
+          "name": "deposit_mint"
         },
         {
-          "name": "systemProgram",
+          "name": "system_program",
           "address": "11111111111111111111111111111111"
         },
         {
-          "name": "tokenProgram",
+          "name": "token_program",
           "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         },
         {
-          "name": "associatedTokenProgram",
+          "name": "associated_token_program",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
@@ -561,19 +555,19 @@ export type VoterStakeRegistry = {
       ],
       "args": [
         {
-          "name": "depositEntryIndex",
+          "name": "deposit_entry_index",
           "type": "u8"
         },
         {
           "name": "kind",
           "type": {
             "defined": {
-              "name": "lockupKind"
+              "name": "LockupKind"
             }
           }
         },
         {
-          "name": "startTs",
+          "name": "start_ts",
           "type": {
             "option": "u64"
           }
@@ -583,13 +577,13 @@ export type VoterStakeRegistry = {
           "type": "u32"
         },
         {
-          "name": "allowClawback",
+          "name": "allow_clawback",
           "type": "bool"
         }
       ]
     },
     {
-      "name": "createRegistrar",
+      "name": "create_registrar",
       "discriminator": [
         132,
         235,
@@ -630,7 +624,7 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "realmGoverningTokenMint"
+                "path": "realm_governing_token_mint"
               }
             ]
           }
@@ -646,19 +640,19 @@ export type VoterStakeRegistry = {
           ]
         },
         {
-          "name": "governanceProgramId",
+          "name": "governance_program_id",
           "docs": [
             "The program id of the spl-governance program the realm belongs to."
           ]
         },
         {
-          "name": "realmGoverningTokenMint",
+          "name": "realm_governing_token_mint",
           "docs": [
             "Either the realm community mint or the council mint."
           ]
         },
         {
-          "name": "realmAuthority",
+          "name": "realm_authority",
           "signer": true
         },
         {
@@ -667,7 +661,7 @@ export type VoterStakeRegistry = {
           "signer": true
         },
         {
-          "name": "systemProgram",
+          "name": "system_program",
           "address": "11111111111111111111111111111111"
         },
         {
@@ -677,13 +671,13 @@ export type VoterStakeRegistry = {
       ],
       "args": [
         {
-          "name": "registrarBump",
+          "name": "registrar_bump",
           "type": "u8"
         }
       ]
     },
     {
-      "name": "createVoter",
+      "name": "create_voter",
       "discriminator": [
         6,
         24,
@@ -719,13 +713,13 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
         },
         {
-          "name": "voterAuthority",
+          "name": "voter_authority",
           "docs": [
             "The authority controling the voter. Must be the same as the",
             "`governing_token_owner` in the token owner record used with",
@@ -734,7 +728,7 @@ export type VoterStakeRegistry = {
           "signer": true
         },
         {
-          "name": "voterWeightRecord",
+          "name": "voter_weight_record",
           "docs": [
             "The voter weight record is the account that will be shown to spl-governance",
             "to prove how much vote weight the voter has. See update_voter_weight_record."
@@ -772,7 +766,7 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
@@ -783,7 +777,7 @@ export type VoterStakeRegistry = {
           "signer": true
         },
         {
-          "name": "systemProgram",
+          "name": "system_program",
           "address": "11111111111111111111111111111111"
         },
         {
@@ -797,11 +791,11 @@ export type VoterStakeRegistry = {
       ],
       "args": [
         {
-          "name": "voterBump",
+          "name": "voter_bump",
           "type": "u8"
         },
         {
-          "name": "voterWeightRecordBump",
+          "name": "voter_weight_record_bump",
           "type": "u8"
         }
       ]
@@ -900,7 +894,7 @@ export type VoterStakeRegistry = {
               {
                 "kind": "account",
                 "path": "deposit_token.mint",
-                "account": "tokenAccount"
+                "account": "TokenAccount"
               }
             ],
             "program": {
@@ -943,21 +937,21 @@ export type VoterStakeRegistry = {
           }
         },
         {
-          "name": "depositToken",
+          "name": "deposit_token",
           "writable": true
         },
         {
-          "name": "depositAuthority",
+          "name": "deposit_authority",
           "signer": true
         },
         {
-          "name": "tokenProgram",
+          "name": "token_program",
           "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         }
       ],
       "args": [
         {
-          "name": "depositEntryIndex",
+          "name": "deposit_entry_index",
           "type": "u8"
         },
         {
@@ -1003,20 +997,20 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
         },
         {
-          "name": "voterAuthority",
+          "name": "voter_authority",
           "docs": [
             "The account of the grantee / the address controlling the voter",
             "that the grant is going to."
           ]
         },
         {
-          "name": "voterWeightRecord",
+          "name": "voter_weight_record",
           "docs": [
             "The voter weight record is the account that will be shown to spl-governance",
             "to prove how much vote weight the voter has. See update_voter_weight_record."
@@ -1054,7 +1048,7 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
@@ -1107,7 +1101,7 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "depositMint"
+                "path": "deposit_mint"
               }
             ],
             "program": {
@@ -1150,18 +1144,18 @@ export type VoterStakeRegistry = {
           }
         },
         {
-          "name": "depositToken",
+          "name": "deposit_token",
           "writable": true
         },
         {
-          "name": "tokenAuthority",
+          "name": "token_authority",
           "docs": [
             "Authority for transfering tokens away from deposit_token"
           ],
           "signer": true
         },
         {
-          "name": "grantAuthority",
+          "name": "grant_authority",
           "docs": [
             "Authority for making a grant to this voter account",
             "",
@@ -1178,18 +1172,18 @@ export type VoterStakeRegistry = {
           "signer": true
         },
         {
-          "name": "depositMint"
+          "name": "deposit_mint"
         },
         {
-          "name": "systemProgram",
+          "name": "system_program",
           "address": "11111111111111111111111111111111"
         },
         {
-          "name": "tokenProgram",
+          "name": "token_program",
           "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         },
         {
-          "name": "associatedTokenProgram",
+          "name": "associated_token_program",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
@@ -1199,23 +1193,23 @@ export type VoterStakeRegistry = {
       ],
       "args": [
         {
-          "name": "voterBump",
+          "name": "voter_bump",
           "type": "u8"
         },
         {
-          "name": "voterWeightRecordBump",
+          "name": "voter_weight_record_bump",
           "type": "u8"
         },
         {
           "name": "kind",
           "type": {
             "defined": {
-              "name": "lockupKind"
+              "name": "LockupKind"
             }
           }
         },
         {
-          "name": "startTs",
+          "name": "start_ts",
           "type": {
             "option": "u64"
           }
@@ -1225,7 +1219,7 @@ export type VoterStakeRegistry = {
           "type": "u32"
         },
         {
-          "name": "allowClawback",
+          "name": "allow_clawback",
           "type": "bool"
         },
         {
@@ -1235,7 +1229,7 @@ export type VoterStakeRegistry = {
       ]
     },
     {
-      "name": "internalTransferLocked",
+      "name": "internal_transfer_locked",
       "discriminator": [
         246,
         200,
@@ -1274,13 +1268,13 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
         },
         {
-          "name": "voterAuthority",
+          "name": "voter_authority",
           "signer": true,
           "relations": [
             "voter"
@@ -1289,11 +1283,11 @@ export type VoterStakeRegistry = {
       ],
       "args": [
         {
-          "name": "sourceDepositEntryIndex",
+          "name": "source_deposit_entry_index",
           "type": "u8"
         },
         {
-          "name": "targetDepositEntryIndex",
+          "name": "target_deposit_entry_index",
           "type": "u8"
         },
         {
@@ -1303,7 +1297,7 @@ export type VoterStakeRegistry = {
       ]
     },
     {
-      "name": "internalTransferUnlocked",
+      "name": "internal_transfer_unlocked",
       "discriminator": [
         95,
         95,
@@ -1342,13 +1336,13 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
         },
         {
-          "name": "voterAuthority",
+          "name": "voter_authority",
           "signer": true,
           "relations": [
             "voter"
@@ -1357,11 +1351,11 @@ export type VoterStakeRegistry = {
       ],
       "args": [
         {
-          "name": "sourceDepositEntryIndex",
+          "name": "source_deposit_entry_index",
           "type": "u8"
         },
         {
-          "name": "targetDepositEntryIndex",
+          "name": "target_deposit_entry_index",
           "type": "u8"
         },
         {
@@ -1371,7 +1365,7 @@ export type VoterStakeRegistry = {
       ]
     },
     {
-      "name": "logVoterInfo",
+      "name": "log_voter_info",
       "discriminator": [
         171,
         72,
@@ -1395,17 +1389,17 @@ export type VoterStakeRegistry = {
       ],
       "args": [
         {
-          "name": "depositEntryBegin",
+          "name": "deposit_entry_begin",
           "type": "u8"
         },
         {
-          "name": "depositEntryCount",
+          "name": "deposit_entry_count",
           "type": "u8"
         }
       ]
     },
     {
-      "name": "resetLockup",
+      "name": "reset_lockup",
       "discriminator": [
         243,
         20,
@@ -1444,13 +1438,13 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
         },
         {
-          "name": "voterAuthority",
+          "name": "voter_authority",
           "signer": true,
           "relations": [
             "voter"
@@ -1459,14 +1453,14 @@ export type VoterStakeRegistry = {
       ],
       "args": [
         {
-          "name": "depositEntryIndex",
+          "name": "deposit_entry_index",
           "type": "u8"
         },
         {
           "name": "kind",
           "type": {
             "defined": {
-              "name": "lockupKind"
+              "name": "LockupKind"
             }
           }
         },
@@ -1477,7 +1471,7 @@ export type VoterStakeRegistry = {
       ]
     },
     {
-      "name": "setTimeOffset",
+      "name": "set_time_offset",
       "discriminator": [
         89,
         238,
@@ -1494,7 +1488,7 @@ export type VoterStakeRegistry = {
           "writable": true
         },
         {
-          "name": "realmAuthority",
+          "name": "realm_authority",
           "signer": true,
           "relations": [
             "registrar"
@@ -1503,13 +1497,13 @@ export type VoterStakeRegistry = {
       ],
       "args": [
         {
-          "name": "timeOffset",
+          "name": "time_offset",
           "type": "i64"
         }
       ]
     },
     {
-      "name": "updateMaxVoteWeight",
+      "name": "update_max_vote_weight",
       "discriminator": [
         78,
         221,
@@ -1525,13 +1519,13 @@ export type VoterStakeRegistry = {
           "name": "registrar"
         },
         {
-          "name": "maxVoteWeightRecord"
+          "name": "max_vote_weight_record"
         }
       ],
       "args": []
     },
     {
-      "name": "updateVoterWeightRecord",
+      "name": "update_voter_weight_record",
       "discriminator": [
         45,
         185,
@@ -1575,7 +1569,7 @@ export type VoterStakeRegistry = {
           }
         },
         {
-          "name": "voterWeightRecord",
+          "name": "voter_weight_record",
           "writable": true,
           "pda": {
             "seeds": [
@@ -1615,7 +1609,7 @@ export type VoterStakeRegistry = {
           }
         },
         {
-          "name": "systemProgram",
+          "name": "system_program",
           "address": "11111111111111111111111111111111"
         }
       ],
@@ -1661,20 +1655,20 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
         },
         {
-          "name": "voterAuthority",
+          "name": "voter_authority",
           "signer": true,
           "relations": [
             "voter"
           ]
         },
         {
-          "name": "tokenOwnerRecord",
+          "name": "token_owner_record",
           "docs": [
             "The token_owner_record for the voter_authority. This is needed",
             "to be able to forbid withdraws while the voter is engaged with",
@@ -1687,7 +1681,7 @@ export type VoterStakeRegistry = {
           ]
         },
         {
-          "name": "voterWeightRecord",
+          "name": "voter_weight_record",
           "docs": [
             "Withdraws must update the voter weight record, to prevent a stale",
             "record being used to vote after the withdraw."
@@ -1725,7 +1719,7 @@ export type VoterStakeRegistry = {
               },
               {
                 "kind": "account",
-                "path": "voterAuthority"
+                "path": "voter_authority"
               }
             ]
           }
@@ -1779,7 +1773,7 @@ export type VoterStakeRegistry = {
               {
                 "kind": "account",
                 "path": "destination.mint",
-                "account": "tokenAccount"
+                "account": "TokenAccount"
               }
             ],
             "program": {
@@ -1826,13 +1820,13 @@ export type VoterStakeRegistry = {
           "writable": true
         },
         {
-          "name": "tokenProgram",
+          "name": "token_program",
           "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         }
       ],
       "args": [
         {
-          "name": "depositEntryIndex",
+          "name": "deposit_entry_index",
           "type": "u8"
         },
         {
@@ -1844,7 +1838,7 @@ export type VoterStakeRegistry = {
   ],
   "accounts": [
     {
-      "name": "registrar",
+      "name": "Registrar",
       "discriminator": [
         193,
         202,
@@ -1857,7 +1851,7 @@ export type VoterStakeRegistry = {
       ]
     },
     {
-      "name": "voter",
+      "name": "Voter",
       "discriminator": [
         241,
         93,
@@ -1872,7 +1866,7 @@ export type VoterStakeRegistry = {
   ],
   "events": [
     {
-      "name": "depositEntryInfo",
+      "name": "DepositEntryInfo",
       "discriminator": [
         44,
         254,
@@ -1885,7 +1879,7 @@ export type VoterStakeRegistry = {
       ]
     },
     {
-      "name": "voterInfo",
+      "name": "VoterInfo",
       "discriminator": [
         95,
         159,
@@ -1901,198 +1895,198 @@ export type VoterStakeRegistry = {
   "errors": [
     {
       "code": 6000,
-      "name": "invalidRate",
+      "name": "InvalidRate",
       "msg": "Exchange rate must be greater than zero"
     },
     {
       "code": 6001,
-      "name": "ratesFull",
+      "name": "RatesFull",
       "msg": ""
     },
     {
       "code": 6002,
-      "name": "votingMintNotFound",
+      "name": "VotingMintNotFound",
       "msg": ""
     },
     {
       "code": 6003,
-      "name": "depositEntryNotFound",
+      "name": "DepositEntryNotFound",
       "msg": ""
     },
     {
       "code": 6004,
-      "name": "depositEntryFull",
+      "name": "DepositEntryFull",
       "msg": ""
     },
     {
       "code": 6005,
-      "name": "votingTokenNonZero",
+      "name": "VotingTokenNonZero",
       "msg": ""
     },
     {
       "code": 6006,
-      "name": "outOfBoundsDepositEntryIndex",
+      "name": "OutOfBoundsDepositEntryIndex",
       "msg": ""
     },
     {
       "code": 6007,
-      "name": "unusedDepositEntryIndex",
+      "name": "UnusedDepositEntryIndex",
       "msg": ""
     },
     {
       "code": 6008,
-      "name": "insufficientUnlockedTokens",
+      "name": "InsufficientUnlockedTokens",
       "msg": ""
     },
     {
       "code": 6009,
-      "name": "unableToConvert",
+      "name": "UnableToConvert",
       "msg": ""
     },
     {
       "code": 6010,
-      "name": "invalidLockupPeriod",
+      "name": "InvalidLockupPeriod",
       "msg": ""
     },
     {
       "code": 6011,
-      "name": "invalidEndTs",
+      "name": "InvalidEndTs",
       "msg": ""
     },
     {
       "code": 6012,
-      "name": "invalidDays",
+      "name": "InvalidDays",
       "msg": ""
     },
     {
       "code": 6013,
-      "name": "votingMintConfigIndexAlreadyInUse",
+      "name": "VotingMintConfigIndexAlreadyInUse",
       "msg": ""
     },
     {
       "code": 6014,
-      "name": "outOfBoundsVotingMintConfigIndex",
+      "name": "OutOfBoundsVotingMintConfigIndex",
       "msg": ""
     },
     {
       "code": 6015,
-      "name": "invalidDecimals",
+      "name": "InvalidDecimals",
       "msg": "Exchange rate decimals cannot be larger than registrar decimals"
     },
     {
       "code": 6016,
-      "name": "invalidToDepositAndWithdrawInOneSlot",
+      "name": "InvalidToDepositAndWithdrawInOneSlot",
       "msg": ""
     },
     {
       "code": 6017,
-      "name": "shouldBeTheFirstIxInATx",
+      "name": "ShouldBeTheFirstIxInATx",
       "msg": ""
     },
     {
       "code": 6018,
-      "name": "forbiddenCpi",
+      "name": "ForbiddenCpi",
       "msg": ""
     },
     {
       "code": 6019,
-      "name": "invalidMint",
+      "name": "InvalidMint",
       "msg": ""
     },
     {
       "code": 6020,
-      "name": "debugInstruction",
+      "name": "DebugInstruction",
       "msg": ""
     },
     {
       "code": 6021,
-      "name": "clawbackNotAllowedOnDeposit",
+      "name": "ClawbackNotAllowedOnDeposit",
       "msg": ""
     },
     {
       "code": 6022,
-      "name": "depositStillLocked",
+      "name": "DepositStillLocked",
       "msg": ""
     },
     {
       "code": 6023,
-      "name": "invalidAuthority",
+      "name": "InvalidAuthority",
       "msg": ""
     },
     {
       "code": 6024,
-      "name": "invalidTokenOwnerRecord",
+      "name": "InvalidTokenOwnerRecord",
       "msg": ""
     },
     {
       "code": 6025,
-      "name": "invalidRealmAuthority",
+      "name": "InvalidRealmAuthority",
       "msg": ""
     },
     {
       "code": 6026,
-      "name": "voterWeightOverflow",
+      "name": "VoterWeightOverflow",
       "msg": ""
     },
     {
       "code": 6027,
-      "name": "lockupSaturationMustBePositive",
+      "name": "LockupSaturationMustBePositive",
       "msg": ""
     },
     {
       "code": 6028,
-      "name": "votingMintConfiguredWithDifferentIndex",
+      "name": "VotingMintConfiguredWithDifferentIndex",
       "msg": ""
     },
     {
       "code": 6029,
-      "name": "internalProgramError",
+      "name": "InternalProgramError",
       "msg": ""
     },
     {
       "code": 6030,
-      "name": "insufficientLockedTokens",
+      "name": "InsufficientLockedTokens",
       "msg": ""
     },
     {
       "code": 6031,
-      "name": "mustKeepTokensLocked",
+      "name": "MustKeepTokensLocked",
       "msg": ""
     },
     {
       "code": 6032,
-      "name": "invalidLockupKind",
+      "name": "InvalidLockupKind",
       "msg": ""
     },
     {
       "code": 6033,
-      "name": "invalidChangeToClawbackDepositEntry",
+      "name": "InvalidChangeToClawbackDepositEntry",
       "msg": ""
     },
     {
       "code": 6034,
-      "name": "internalErrorBadLockupVoteWeight",
+      "name": "InternalErrorBadLockupVoteWeight",
       "msg": ""
     },
     {
       "code": 6035,
-      "name": "depositStartTooFarInFuture",
+      "name": "DepositStartTooFarInFuture",
       "msg": ""
     },
     {
       "code": 6036,
-      "name": "vaultTokenNonZero",
+      "name": "VaultTokenNonZero",
       "msg": ""
     },
     {
       "code": 6037,
-      "name": "invalidTimestampArguments",
+      "name": "InvalidTimestampArguments",
       "msg": ""
     }
   ],
   "types": [
     {
-      "name": "depositEntry",
+      "name": "DepositEntry",
       "docs": [
         "Bookkeeping for a single deposit for a given mint and lockup schedule."
       ],
@@ -2106,12 +2100,12 @@ export type VoterStakeRegistry = {
             "name": "lockup",
             "type": {
               "defined": {
-                "name": "lockup"
+                "name": "Lockup"
               }
             }
           },
           {
-            "name": "amountDepositedNative",
+            "name": "amount_deposited_native",
             "docs": [
               "Amount in deposited, in native currency. Withdraws of vested tokens",
               "directly reduce this amount.",
@@ -2122,7 +2116,7 @@ export type VoterStakeRegistry = {
             "type": "u64"
           },
           {
-            "name": "amountInitiallyLockedNative",
+            "name": "amount_initially_locked_native",
             "docs": [
               "Amount in locked when the lockup began, in native currency.",
               "",
@@ -2136,18 +2130,18 @@ export type VoterStakeRegistry = {
             "type": "u64"
           },
           {
-            "name": "isUsed",
+            "name": "is_used",
             "type": "bool"
           },
           {
-            "name": "allowClawback",
+            "name": "allow_clawback",
             "docs": [
               "If the clawback authority is allowed to extract locked tokens."
             ],
             "type": "bool"
           },
           {
-            "name": "votingMintConfigIdx",
+            "name": "voting_mint_config_idx",
             "type": "u8"
           },
           {
@@ -2163,16 +2157,16 @@ export type VoterStakeRegistry = {
       }
     },
     {
-      "name": "depositEntryInfo",
+      "name": "DepositEntryInfo",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "depositEntryIndex",
+            "name": "deposit_entry_index",
             "type": "u8"
           },
           {
-            "name": "votingMintConfigIndex",
+            "name": "voting_mint_config_index",
             "type": "u8"
           },
           {
@@ -2183,14 +2177,14 @@ export type VoterStakeRegistry = {
             "type": "u64"
           },
           {
-            "name": "votingPower",
+            "name": "voting_power",
             "docs": [
               "Voting power implied by this deposit entry"
             ],
             "type": "u64"
           },
           {
-            "name": "votingPowerBaseline",
+            "name": "voting_power_baseline",
             "docs": [
               "Voting power without any adjustments for lockup"
             ],
@@ -2204,7 +2198,7 @@ export type VoterStakeRegistry = {
             "type": {
               "option": {
                 "defined": {
-                  "name": "lockingInfo"
+                  "name": "LockingInfo"
                 }
               }
             }
@@ -2213,7 +2207,7 @@ export type VoterStakeRegistry = {
       }
     },
     {
-      "name": "lockingInfo",
+      "name": "LockingInfo",
       "type": {
         "kind": "struct",
         "fields": [
@@ -2225,7 +2219,7 @@ export type VoterStakeRegistry = {
             "type": "u64"
           },
           {
-            "name": "endTimestamp",
+            "name": "end_timestamp",
             "docs": [
               "Time at which the lockup fully ends (None for Constant lockup)"
             ],
@@ -2241,7 +2235,7 @@ export type VoterStakeRegistry = {
             "type": {
               "option": {
                 "defined": {
-                  "name": "vestingInfo"
+                  "name": "VestingInfo"
                 }
               }
             }
@@ -2250,7 +2244,7 @@ export type VoterStakeRegistry = {
       }
     },
     {
-      "name": "lockup",
+      "name": "Lockup",
       "repr": {
         "kind": "c"
       },
@@ -2258,7 +2252,7 @@ export type VoterStakeRegistry = {
         "kind": "struct",
         "fields": [
           {
-            "name": "startTs",
+            "name": "start_ts",
             "docs": [
               "Start of the lockup.",
               "",
@@ -2271,7 +2265,7 @@ export type VoterStakeRegistry = {
             "type": "i64"
           },
           {
-            "name": "endTs",
+            "name": "end_ts",
             "docs": [
               "End of the lockup."
             ],
@@ -2284,7 +2278,7 @@ export type VoterStakeRegistry = {
             ],
             "type": {
               "defined": {
-                "name": "lockupKind"
+                "name": "LockupKind"
               }
             }
           },
@@ -2301,7 +2295,7 @@ export type VoterStakeRegistry = {
       }
     },
     {
-      "name": "lockupKind",
+      "name": "LockupKind",
       "repr": {
         "kind": "rust"
       },
@@ -2309,25 +2303,25 @@ export type VoterStakeRegistry = {
         "kind": "enum",
         "variants": [
           {
-            "name": "none"
+            "name": "None"
           },
           {
-            "name": "daily"
+            "name": "Daily"
           },
           {
-            "name": "monthly"
+            "name": "Monthly"
           },
           {
-            "name": "cliff"
+            "name": "Cliff"
           },
           {
-            "name": "constant"
+            "name": "Constant"
           }
         ]
       }
     },
     {
-      "name": "registrar",
+      "name": "Registrar",
       "docs": [
         "Instance of a voting rights distributor."
       ],
@@ -2339,7 +2333,7 @@ export type VoterStakeRegistry = {
         "kind": "struct",
         "fields": [
           {
-            "name": "governanceProgramId",
+            "name": "governance_program_id",
             "type": "pubkey"
           },
           {
@@ -2347,11 +2341,11 @@ export type VoterStakeRegistry = {
             "type": "pubkey"
           },
           {
-            "name": "realmGoverningTokenMint",
+            "name": "realm_governing_token_mint",
             "type": "pubkey"
           },
           {
-            "name": "realmAuthority",
+            "name": "realm_authority",
             "type": "pubkey"
           },
           {
@@ -2364,7 +2358,7 @@ export type VoterStakeRegistry = {
             }
           },
           {
-            "name": "votingMints",
+            "name": "voting_mints",
             "docs": [
               "Storage for voting mints and their configuration.",
               "The length should be adjusted for one's use case."
@@ -2373,7 +2367,7 @@ export type VoterStakeRegistry = {
               "array": [
                 {
                   "defined": {
-                    "name": "votingMintConfig"
+                    "name": "VotingMintConfig"
                   }
                 },
                 4
@@ -2381,7 +2375,7 @@ export type VoterStakeRegistry = {
             }
           },
           {
-            "name": "timeOffset",
+            "name": "time_offset",
             "docs": [
               "Debug only: time offset, to allow tests to move forward in time."
             ],
@@ -2413,7 +2407,7 @@ export type VoterStakeRegistry = {
       }
     },
     {
-      "name": "vestingInfo",
+      "name": "VestingInfo",
       "type": {
         "kind": "struct",
         "fields": [
@@ -2425,7 +2419,7 @@ export type VoterStakeRegistry = {
             "type": "u64"
           },
           {
-            "name": "nextTimestamp",
+            "name": "next_timestamp",
             "docs": [
               "Time of the next upcoming vesting"
             ],
@@ -2435,7 +2429,7 @@ export type VoterStakeRegistry = {
       }
     },
     {
-      "name": "voter",
+      "name": "Voter",
       "docs": [
         "User account for minting voting rights."
       ],
@@ -2447,7 +2441,7 @@ export type VoterStakeRegistry = {
         "kind": "struct",
         "fields": [
           {
-            "name": "voterAuthority",
+            "name": "voter_authority",
             "type": "pubkey"
           },
           {
@@ -2460,7 +2454,7 @@ export type VoterStakeRegistry = {
               "array": [
                 {
                   "defined": {
-                    "name": "depositEntry"
+                    "name": "DepositEntry"
                   }
                 },
                 32
@@ -2468,11 +2462,11 @@ export type VoterStakeRegistry = {
             }
           },
           {
-            "name": "voterBump",
+            "name": "voter_bump",
             "type": "u8"
           },
           {
-            "name": "voterWeightRecordBump",
+            "name": "voter_weight_record_bump",
             "type": "u8"
           },
           {
@@ -2488,19 +2482,19 @@ export type VoterStakeRegistry = {
       }
     },
     {
-      "name": "voterInfo",
+      "name": "VoterInfo",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "votingPower",
+            "name": "voting_power",
             "docs": [
               "Voter's total voting power"
             ],
             "type": "u64"
           },
           {
-            "name": "votingPowerBaseline",
+            "name": "voting_power_baseline",
             "docs": [
               "Voter's total voting power, when ignoring any effects from lockup"
             ],
@@ -2510,7 +2504,7 @@ export type VoterStakeRegistry = {
       }
     },
     {
-      "name": "votingMintConfig",
+      "name": "VotingMintConfig",
       "docs": [
         "Exchange rate for an asset that can be used to mint voting rights.",
         "",
@@ -2532,14 +2526,14 @@ export type VoterStakeRegistry = {
             "type": "pubkey"
           },
           {
-            "name": "grantAuthority",
+            "name": "grant_authority",
             "docs": [
               "The authority that is allowed to push grants into voters"
             ],
             "type": "pubkey"
           },
           {
-            "name": "baselineVoteWeightScaledFactor",
+            "name": "baseline_vote_weight_scaled_factor",
             "docs": [
               "Vote weight factor for all funds in the account, no matter if locked or not.",
               "",
@@ -2548,7 +2542,7 @@ export type VoterStakeRegistry = {
             "type": "u64"
           },
           {
-            "name": "maxExtraLockupVoteWeightScaledFactor",
+            "name": "max_extra_lockup_vote_weight_scaled_factor",
             "docs": [
               "Maximum extra vote weight factor for lockups.",
               "",
@@ -2561,14 +2555,14 @@ export type VoterStakeRegistry = {
             "type": "u64"
           },
           {
-            "name": "lockupSaturationSecs",
+            "name": "lockup_saturation_secs",
             "docs": [
               "Number of seconds of lockup needed to reach the maximum lockup bonus."
             ],
             "type": "u64"
           },
           {
-            "name": "digitShift",
+            "name": "digit_shift",
             "docs": [
               "Number of digits to shift native amounts, applying a 10^digit_shift factor."
             ],
@@ -2596,4 +2590,4 @@ export type VoterStakeRegistry = {
       }
     }
   ]
-};
+}

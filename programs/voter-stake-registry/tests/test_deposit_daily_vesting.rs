@@ -41,7 +41,7 @@ async fn balances(
     }
 }
 
-#[allow(unaligned_references)]
+
 #[tokio::test]
 async fn test_deposit_daily_vesting() -> Result<(), TransportError> {
     let context = TestContext::new().await;

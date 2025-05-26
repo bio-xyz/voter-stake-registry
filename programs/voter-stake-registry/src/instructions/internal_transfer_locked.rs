@@ -50,7 +50,7 @@ pub fn internal_transfer_locked(
     // Allowing transfers from clawback-enabled deposits could be used to avoid
     // clawback by making proposal instructions target the wrong entry index.
     require!(
-        !source.allow_clawback,
+        !source.allow_clawback(),
         VsrError::InvalidChangeToClawbackDepositEntry
     );
 

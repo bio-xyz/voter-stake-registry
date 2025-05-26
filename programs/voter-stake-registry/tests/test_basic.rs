@@ -7,7 +7,7 @@ use voter_stake_registry::state::Voter;
 
 mod program_test;
 
-#[allow(unaligned_references)]
+
 #[tokio::test]
 async fn test_basic() -> Result<(), TransportError> {
     let context = TestContext::new().await;

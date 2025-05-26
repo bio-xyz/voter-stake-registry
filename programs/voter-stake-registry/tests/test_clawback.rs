@@ -6,7 +6,7 @@ use program_test::*;
 
 mod program_test;
 
-#[allow(unaligned_references)]
+
 #[tokio::test]
 async fn test_clawback() -> Result<(), TransportError> {
     let context = TestContext::new().await;

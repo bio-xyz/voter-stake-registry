@@ -1,14 +1,14 @@
-anchor_version = "0.26.0"
-solana_version = "1.14.10"
+anchor_version = "0.31.1"
+solana_version = "2.2.1"
 
 [programs.localnet]
-voter_stake_registry = "4Q6WW2ouZ6V3iaNm56MTd5n2tnTm4C5fiH8miFHnAFHo"
+voter_stake_registry = "9SJqwCQ5AJkFtC7zxfFsF6Y5dm22XzN3JEhn3N14v23t"
 
 [programs.devnet]
-voter_stake_registry = "4Q6WW2ouZ6V3iaNm56MTd5n2tnTm4C5fiH8miFHnAFHo"
+voter_stake_registry = "9SJqwCQ5AJkFtC7zxfFsF6Y5dm22XzN3JEhn3N14v23t"
 
 [programs.mainnet]
-voter_stake_registry = "4Q6WW2ouZ6V3iaNm56MTd5n2tnTm4C5fiH8miFHnAFHo"
+voter_stake_registry = "9SJqwCQ5AJkFtC7zxfFsF6Y5dm22XzN3JEhn3N14v23t"
 
 [provider]
 cluster = "mainnet"
