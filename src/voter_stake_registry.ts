@@ -8,7 +8,7 @@ export type VoterStakeRegistry = {
   "address": "9SJqwCQ5AJkFtC7zxfFsF6Y5dm22XzN3JEhn3N14v23t",
   "metadata": {
     "name": "voterStakeRegistry",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "spec": "0.1.0",
     "description": "a voter weight plugin for spl-governance"
   },
@@ -121,46 +121,12 @@ export type VoterStakeRegistry = {
                 "path": "voter"
               },
               {
-                "kind": "const",
-                "value": [
-                  6,
-                  221,
-                  246,
-                  225,
-                  215,
-                  101,
-                  161,
-                  147,
-                  217,
-                  203,
-                  225,
-                  70,
-                  206,
-                  235,
-                  121,
-                  172,
-                  28,
-                  180,
-                  133,
-                  237,
-                  95,
-                  91,
-                  55,
-                  145,
-                  58,
-                  140,
-                  245,
-                  133,
-                  126,
-                  255,
-                  0,
-                  169
-                ]
+                "kind": "account",
+                "path": "tokenProgram"
               },
               {
                 "kind": "account",
-                "path": "destination.mint",
-                "account": "tokenAccount"
+                "path": "mint"
               }
             ],
             "program": {
@@ -203,12 +169,14 @@ export type VoterStakeRegistry = {
           }
         },
         {
+          "name": "mint"
+        },
+        {
           "name": "destination",
           "writable": true
         },
         {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          "name": "tokenProgram"
         }
       ],
       "args": [
@@ -326,8 +294,7 @@ export type VoterStakeRegistry = {
           "writable": true
         },
         {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          "name": "tokenProgram"
         }
       ],
       "args": []
@@ -547,8 +514,7 @@ export type VoterStakeRegistry = {
           "address": "11111111111111111111111111111111"
         },
         {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          "name": "tokenProgram"
         },
         {
           "name": "associatedTokenProgram",
@@ -861,46 +827,12 @@ export type VoterStakeRegistry = {
                 "path": "voter"
               },
               {
-                "kind": "const",
-                "value": [
-                  6,
-                  221,
-                  246,
-                  225,
-                  215,
-                  101,
-                  161,
-                  147,
-                  217,
-                  203,
-                  225,
-                  70,
-                  206,
-                  235,
-                  121,
-                  172,
-                  28,
-                  180,
-                  133,
-                  237,
-                  95,
-                  91,
-                  55,
-                  145,
-                  58,
-                  140,
-                  245,
-                  133,
-                  126,
-                  255,
-                  0,
-                  169
-                ]
+                "kind": "account",
+                "path": "tokenProgram"
               },
               {
                 "kind": "account",
-                "path": "deposit_token.mint",
-                "account": "tokenAccount"
+                "path": "mint"
               }
             ],
             "program": {
@@ -943,6 +875,9 @@ export type VoterStakeRegistry = {
           }
         },
         {
+          "name": "mint"
+        },
+        {
           "name": "depositToken",
           "writable": true
         },
@@ -951,8 +886,7 @@ export type VoterStakeRegistry = {
           "signer": true
         },
         {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          "name": "tokenProgram"
         }
       ],
       "args": [
@@ -1185,8 +1119,7 @@ export type VoterStakeRegistry = {
           "address": "11111111111111111111111111111111"
         },
         {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          "name": "tokenProgram"
         },
         {
           "name": "associatedTokenProgram",
@@ -1740,46 +1673,12 @@ export type VoterStakeRegistry = {
                 "path": "voter"
               },
               {
-                "kind": "const",
-                "value": [
-                  6,
-                  221,
-                  246,
-                  225,
-                  215,
-                  101,
-                  161,
-                  147,
-                  217,
-                  203,
-                  225,
-                  70,
-                  206,
-                  235,
-                  121,
-                  172,
-                  28,
-                  180,
-                  133,
-                  237,
-                  95,
-                  91,
-                  55,
-                  145,
-                  58,
-                  140,
-                  245,
-                  133,
-                  126,
-                  255,
-                  0,
-                  169
-                ]
+                "kind": "account",
+                "path": "tokenProgram"
               },
               {
                 "kind": "account",
-                "path": "destination.mint",
-                "account": "tokenAccount"
+                "path": "mint"
               }
             ],
             "program": {
@@ -1822,12 +1721,14 @@ export type VoterStakeRegistry = {
           }
         },
         {
+          "name": "mint"
+        },
+        {
           "name": "destination",
           "writable": true
         },
         {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          "name": "tokenProgram"
         }
       ],
       "args": [
@@ -2087,6 +1988,11 @@ export type VoterStakeRegistry = {
     {
       "code": 6037,
       "name": "invalidTimestampArguments",
+      "msg": ""
+    },
+    {
+      "code": 6038,
+      "name": "mathematicalOverflow",
       "msg": ""
     }
   ],

@@ -6,7 +6,7 @@ use solana_sdk::{
     instruction::Instruction,
     signature::{Keypair, Signer},
 };
-
+use crate::program_test::spl_token_2022_id;
 use crate::*;
 
 #[derive(Clone)]
@@ -25,6 +25,7 @@ pub struct RegistrarCookie {
 #[derive(Clone)]
 pub struct VotingMintConfigCookie {
     pub mint: MintCookie,
+    pub token_program_id: Pubkey,
 }
 
 #[allow(dead_code)]
@@ -106,9 +107,9 @@ impl AddinCookie {
         lockup_saturation_secs: u64,
         grant_authority: Option<Pubkey>,
         other_mints: Option<&[Pubkey]>,
+        is_token_2022: bool
     ) -> VotingMintConfigCookie {
         let deposit_mint = mint.pubkey.unwrap();
-
         let data = anchor_lang::InstructionData::data(
             &voter_stake_registry::instruction::ConfigureVotingMint {
                 idx: index,
@@ -155,7 +156,7 @@ impl AddinCookie {
             .await
             .unwrap();
 
-        VotingMintConfigCookie { mint: mint.clone() }
+        VotingMintConfigCookie { mint: mint.clone(), token_program_id: if is_token_2022 { spl_token_2022_id() } else { spl_token::id() } }
     }
 
     pub async fn create_voter(
@@ -258,7 +259,7 @@ impl AddinCookie {
                 payer: voter_authority.pubkey(),
                 deposit_mint: voting_mint.mint.pubkey.unwrap(),
                 system_program: solana_sdk::system_program::id(),
-                token_program: spl_token::id(),
+                token_program: voting_mint.token_program_id,
                 associated_token_program: spl_associated_token_account::id(),
                 rent: solana_program::sysvar::rent::id(),
             },
@@ -303,9 +304,10 @@ impl AddinCookie {
                 registrar: registrar.address,
                 voter: voter.address,
                 vault: vault,
+                mint: voting_mint.mint.pubkey.unwrap(),
                 deposit_token: token_address,
                 deposit_authority: authority.pubkey(),
-                token_program: spl_token::id(),
+                token_program: voting_mint.token_program_id,
             },
             None,
         );
@@ -386,7 +388,7 @@ impl AddinCookie {
                 payer: token_authority.pubkey(),
                 deposit_mint: voting_mint.mint.pubkey.unwrap(),
                 system_program: solana_sdk::system_program::id(),
-                token_program: spl_token::id(),
+                token_program: voting_mint.token_program_id,
                 associated_token_program: spl_associated_token_account::id(),
                 rent: solana_program::sysvar::rent::id(),
             },
@@ -433,8 +435,9 @@ impl AddinCookie {
                 voter: voter.address,
                 vault,
                 destination: token_address,
+                mint: voting_mint.mint.pubkey.unwrap(),
                 realm_authority: realm_authority.pubkey(),
-                token_program: spl_token::id(),
+                token_program: voting_mint.token_program_id,
             },
             None,
         );
@@ -479,9 +482,10 @@ impl AddinCookie {
                 token_owner_record: voter.token_owner_record,
                 voter_weight_record: voter.voter_weight_record,
                 vault,
+                mint: voting_mint.mint.pubkey.unwrap(),
                 destination: token_address,
                 voter_authority: authority.pubkey(),
-                token_program: spl_token::id(),
+                token_program: voting_mint.token_program_id,
             },
             None,
         );
@@ -519,7 +523,7 @@ impl AddinCookie {
                 voter: voter.address,
                 voter_authority: voter_authority.pubkey(),
                 sol_destination: voter_authority.pubkey(),
-                token_program: spl_token::id(),
+                token_program: voting_mint.token_program_id,
             },
             None,
         );
@@ -813,7 +817,7 @@ impl VotingMintConfigCookie {
     #[allow(dead_code)]
     pub async fn vault_balance(&self, solana: &SolanaCookie, voter: &VoterCookie) -> u64 {
         let vault = voter.vault_address(&self);
-        solana.get_account::<TokenAccount>(vault).await.amount
+        solana.token_account_balance(vault).await
     }
 }
 
@@ -828,9 +832,10 @@ impl VoterCookie {
     }
 
     pub fn vault_address(&self, mint: &VotingMintConfigCookie) -> Pubkey {
-        spl_associated_token_account::get_associated_token_address(
+        spl_associated_token_account::get_associated_token_address_with_program_id(
             &self.address,
             &mint.mint.pubkey.unwrap(),
+            &mint.token_program_id
         )
     }
 }

@@ -2,7 +2,9 @@ use crate::error::*;
 use crate::state::*;
 use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
-use anchor_spl::token::{Mint, Token, TokenAccount};
+use anchor_spl::token_interface::Mint;
+use anchor_spl::token_interface::TokenAccount;
+use anchor_spl::token_interface::TokenInterface;
 use std::convert::TryFrom;
 
 #[derive(Accounts)]
@@ -25,17 +27,17 @@ pub struct CreateDepositEntry<'info> {
         associated_token::mint = deposit_mint,
         payer = payer
     )]
-    pub vault: Box<Account<'info, TokenAccount>>,
+    pub vault: Box<InterfaceAccount<'info, TokenAccount>>,
 
     pub voter_authority: Signer<'info>,
 
     #[account(mut)]
     pub payer: Signer<'info>,
 
-    pub deposit_mint: Box<Account<'info, Mint>>,
+    pub deposit_mint: Box<InterfaceAccount<'info, Mint>>,
 
     pub system_program: Program<'info, System>,
-    pub token_program: Program<'info, Token>,
+    pub token_program: Interface<'info, TokenInterface>,
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub rent: Sysvar<'info, Rent>,
 }

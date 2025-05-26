@@ -1,8 +1,11 @@
 use crate::error::*;
 use crate::state::*;
+use crate::tools::transfer_checked_spl_tokens;
 use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
-use anchor_spl::token::{self, Mint, Token, TokenAccount};
+use anchor_spl::token_interface::Mint;
+use anchor_spl::token_interface::TokenAccount;
+use anchor_spl::token_interface::TokenInterface;
 use std::convert::TryFrom;
 use std::mem::size_of;
 
@@ -33,7 +36,7 @@ pub struct Grant<'info> {
         payer = payer,
         space = size_of::<VoterWeightRecord>(),
     )]
-    pub voter_weight_record: Account<'info, VoterWeightRecord>,
+    pub voter_weight_record: Box<Account<'info, VoterWeightRecord>>,
 
     #[account(
         init_if_needed,
@@ -41,14 +44,14 @@ pub struct Grant<'info> {
         associated_token::mint = deposit_mint,
         payer = payer
     )]
-    pub vault: Box<Account<'info, TokenAccount>>,
+    pub vault: Box<InterfaceAccount<'info, TokenAccount>>,
 
     #[account(
         mut,
         constraint = deposit_token.owner == token_authority.key(),
         constraint = deposit_token.mint == deposit_mint.key(),
     )]
-    pub deposit_token: Box<Account<'info, TokenAccount>>,
+    pub deposit_token: Box<InterfaceAccount<'info, TokenAccount>>,
 
     /// Authority for transfering tokens away from deposit_token
     pub token_authority: Signer<'info>,
@@ -62,24 +65,12 @@ pub struct Grant<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
 
-    pub deposit_mint: Box<Account<'info, Mint>>,
+    pub deposit_mint: Box<InterfaceAccount<'info, Mint>>,
 
     pub system_program: Program<'info, System>,
-    pub token_program: Program<'info, Token>,
+    pub token_program: Interface<'info, TokenInterface>,
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub rent: Sysvar<'info, Rent>,
-}
-
-impl<'info> Grant<'info> {
-    pub fn transfer_ctx(&self) -> CpiContext<'_, '_, '_, 'info, token::Transfer<'info>> {
-        let program = self.token_program.to_account_info();
-        let accounts = token::Transfer {
-            from: self.deposit_token.to_account_info(),
-            to: self.vault.to_account_info(),
-            authority: self.token_authority.to_account_info(),
-        };
-        CpiContext::new(program, accounts)
-    }
 }
 
 /// Returns if the anchor discriminator on the account is still unset
@@ -96,8 +87,8 @@ pub fn is_freshly_initialized(account_info: &AccountInfo) -> Result<bool> {
 /// The voter may or may not exist in advance.
 /// Creates a new deposit entry -- errors if no free ones are available.
 #[allow(clippy::too_many_arguments)]
-pub fn grant(
-    ctx: Context<Grant>,
+pub fn grant<'info>(
+    ctx: Context<'_, '_, '_, 'info, Grant<'info>>,
     voter_bump: u8,
     voter_weight_record_bump: u8,
     kind: LockupKind,
@@ -177,8 +168,17 @@ pub fn grant(
     };
     d_entry.lockup = Lockup::new_from_periods(kind, curr_ts, start_ts, periods)?;
 
-    // Deposit tokens, locking them all.
-    token::transfer(ctx.accounts.transfer_ctx(), amount)?;
+    // Deposit tokens into the vault. locking them all.
+    transfer_checked_spl_tokens(
+        &ctx.accounts.deposit_token.to_account_info(),
+        &ctx.accounts.vault.to_account_info(),
+        &ctx.accounts.token_authority.to_account_info(),
+        amount,
+        &ctx.accounts.token_program.to_account_info(),
+        &ctx.accounts.deposit_mint.to_account_info(),
+        &ctx.remaining_accounts,
+        ctx.accounts.deposit_mint.decimals,
+    )?;
     d_entry.amount_deposited_native = amount;
     d_entry.amount_initially_locked_native = amount;
 

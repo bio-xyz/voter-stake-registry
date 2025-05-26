@@ -1,7 +1,7 @@
 use crate::error::*;
 use crate::state::voting_mint_config::VotingMintConfig;
 use anchor_lang::prelude::*;
-use anchor_spl::token::Mint;
+use anchor_spl::token_interface::Mint;
 
 /// Instance of a voting rights distributor.
 #[account(zero_copy)]
@@ -52,7 +52,8 @@ impl Registrar {
                     .iter()
                     .find(|a| a.key() == voting_mint_config.mint)
                     .ok_or_else(|| error!(VsrError::VotingMintNotFound))?;
-                let mint = Account::<Mint>::try_from(mint_account)?;
+                let mut data = &mint_account.data.borrow()[..];
+                let mint = Mint::try_deserialize(&mut data)?;
                 sum = sum
                     .checked_add(voting_mint_config.baseline_vote_weight(mint.supply)?)
                     .ok_or_else(|| error!(VsrError::VoterWeightOverflow))?;

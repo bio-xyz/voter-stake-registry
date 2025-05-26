@@ -1,5 +1,10 @@
 # Voter Stake Registry Changelog
 
+## v0.3.1 - 2025-5-25 - not on mainnet
+
+### Program
+- Add token-2022 support
+
 ## v0.3.0 - 2022-5-10 - on mainnet
 
 ### Program

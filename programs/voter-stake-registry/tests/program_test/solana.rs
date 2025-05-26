@@ -2,10 +2,11 @@ use std::cell::RefCell;
 use std::sync::{Arc, RwLock};
 
 use anchor_lang::AccountDeserialize; 
-use anchor_spl::token::TokenAccount;
-use anchor_lang::solana_program::{program_pack::Pack, rent::*, system_instruction};
+use anchor_lang::solana_program::{program_pack::Pack, rent::*};
+use anchor_spl::token_interface::TokenAccount;
 use solana_program_test::*;
-use solana_sdk::clock;
+use solana_sdk::program_pack::IsInitialized;
+use solana_sdk::{clock, system_instruction};
 use solana_sdk::{
     account::ReadableAccount,
     instruction::Instruction,
@@ -73,26 +74,30 @@ impl SolanaCookie {
     }
 
     #[allow(dead_code)]
-    pub async fn create_token_account(&self, owner: &Pubkey, mint: Pubkey) -> Pubkey {
+    pub async fn create_token_account(&self, owner: &Pubkey, mint: Pubkey, is_token_2022: bool) -> Pubkey {
         let keypair = Keypair::new();
         let rent = self.rent.minimum_balance(spl_token::state::Account::LEN);
 
-        let instructions = [
-            system_instruction::create_account(
-                &self.context.borrow().payer.pubkey(),
-                &keypair.pubkey(),
-                rent,
-                spl_token::state::Account::LEN as u64,
-                &spl_token::id(),
-            ),
-            spl_token::instruction::initialize_account(
-                &spl_token::id(),
-                &keypair.pubkey(),
-                &mint,
-                owner,
-            )
-            .unwrap(),
-        ];
+        let create_account_ix = system_instruction::create_account(
+            &self.context.borrow().payer.pubkey(),
+            &keypair.pubkey(),
+            rent,
+            spl_token::state::Account::LEN as u64,
+            &spl_token::id(),
+        );
+        let token_program_id = if is_token_2022 {
+            &spl_token_2022::id()
+        } else {
+            &spl_token::id()
+        };
+        let initialize_account_ix = spl_token_2022::instruction::initialize_account(
+            token_program_id,
+            &keypair.pubkey(),
+            &mint,
+            owner,
+        ).unwrap();
+
+        let instructions = [create_account_ix, initialize_account_ix];
 
         self.process_transaction(&instructions, Some(&[&keypair]))
             .await
@@ -124,6 +129,22 @@ impl SolanaCookie {
     pub async fn token_account_balance(&self, address: Pubkey) -> u64 {
         self.get_account::<TokenAccount>(address).await.amount
     }
+
+    #[allow(dead_code)]
+    async fn get_packed_account<T: Pack + IsInitialized>(&mut self, address: &Pubkey) -> T {
+        self.context
+            .borrow_mut()
+            .banks_client
+            .get_packed_account_data::<T>(*address)
+            .await
+            .unwrap()
+    }
+
+    #[allow(dead_code)]
+    pub async fn get_token_account(&mut self, address: &Pubkey) -> spl_token_2022::state::Account {
+        self.get_packed_account(address).await
+    }
+
 
     #[allow(dead_code)]
     pub fn program_output(&self) -> super::ProgramOutput {
