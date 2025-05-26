@@ -170,6 +170,7 @@ impl TestContext {
             } else {
                 &spl_token::id()
             };
+            println!("mint_index: {}, mint_pk: {}, token_program_id: {}", mint_index, mint_pk, token_program_id);
 
             test.add_packable_account(
                 mint_pk,

@@ -1,4 +1,3 @@
-use anchor_spl::token::TokenAccount;
 use program_test::*;
 use solana_program_test::*;
 use solana_sdk::{signature::Keypair, signer::Signer, transport::TransportError};
@@ -68,6 +67,7 @@ async fn test_log_voter_info() -> Result<(), TransportError> {
             365 * 24 * 60 * 60,
             None,
             None,
+            false,
         )
         .await;
 

@@ -3,7 +3,10 @@ use std::ops::DerefMut;
 use crate::error::*;
 use crate::state::*;
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, CloseAccount, Token, TokenAccount};
+use anchor_spl::token_2022;
+use anchor_spl::token_2022::CloseAccount;
+use anchor_spl::token_interface::TokenAccount;
+use anchor_spl::token_interface::TokenInterface;
 use bytemuck::bytes_of_mut;
 
 // Remaining accounts must be all the token token accounts owned by voter, he wants to close,
@@ -30,7 +33,7 @@ pub struct CloseVoter<'info> {
     /// CHECK: Destination may be any address.
     pub sol_destination: UncheckedAccount<'info>,
 
-    pub token_program: Program<'info, Token>,
+    pub token_program: Interface<'info, TokenInterface>,
 }
 
 /// Closes the voter account (Optionally, also token vaults, as part of remaining_accounts),
@@ -46,7 +49,7 @@ pub fn close_voter<'info>(ctx: Context<'_, '_, 'info, 'info, CloseVoter<'info>>)
 
         let voter_seeds = voter_seeds!(voter);
         for account in ctx.remaining_accounts.iter() {
-            let token = Account::<TokenAccount>::try_from(&account).unwrap();
+            let token = InterfaceAccount::<TokenAccount>::try_from(&account).unwrap();
             require_keys_eq!(
                 token.owner,
                 ctx.accounts.voter.key(),
@@ -60,7 +63,7 @@ pub fn close_voter<'info>(ctx: Context<'_, '_, 'info, 'info, CloseVoter<'info>>)
                 authority: ctx.accounts.voter.to_account_info(),
             };
             let cpi_program = ctx.accounts.token_program.to_account_info();
-            token::close_account(CpiContext::new_with_signer(
+            token_2022::close_account(CpiContext::new_with_signer(
                 cpi_program,
                 cpi_accounts,
                 &[voter_seeds],

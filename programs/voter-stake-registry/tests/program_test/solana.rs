@@ -2,9 +2,10 @@ use std::cell::RefCell;
 use std::sync::{Arc, RwLock};
 
 use anchor_lang::AccountDeserialize; 
-use anchor_spl::token::TokenAccount;
 use anchor_lang::solana_program::{program_pack::Pack, rent::*};
+use anchor_spl::token_interface::TokenAccount;
 use solana_program_test::*;
+use solana_sdk::program_pack::IsInitialized;
 use solana_sdk::{clock, system_instruction};
 use solana_sdk::{
     account::ReadableAccount,
@@ -128,6 +129,22 @@ impl SolanaCookie {
     pub async fn token_account_balance(&self, address: Pubkey) -> u64 {
         self.get_account::<TokenAccount>(address).await.amount
     }
+
+    #[allow(dead_code)]
+    async fn get_packed_account<T: Pack + IsInitialized>(&mut self, address: &Pubkey) -> T {
+        self.context
+            .borrow_mut()
+            .banks_client
+            .get_packed_account_data::<T>(*address)
+            .await
+            .unwrap()
+    }
+
+    #[allow(dead_code)]
+    pub async fn get_token_account(&mut self, address: &Pubkey) -> spl_token_2022::state::Account {
+        self.get_packed_account(address).await
+    }
+
 
     #[allow(dead_code)]
     pub fn program_output(&self) -> super::ProgramOutput {

@@ -1,7 +1,7 @@
 use crate::error::*;
 use crate::state::*;
 use anchor_lang::prelude::*;
-use anchor_spl::token::Mint;
+use anchor_spl::token_interface::Mint;
 
 // Remaining accounts must be all the token mints that have registered
 // as voting mints, including the newly registered one.
@@ -12,7 +12,7 @@ pub struct ConfigureVotingMint<'info> {
     pub realm_authority: Signer<'info>,
 
     /// Tokens of this mint will produce vote weight
-    pub mint: Account<'info, Mint>,
+    pub mint: Box<InterfaceAccount<'info, Mint>>,
     // This instruction expects that all voting mint addresses, including a
     // newly registered one, are passed in ctx.remainingAccounts.
 }

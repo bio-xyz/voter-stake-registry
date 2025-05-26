@@ -1,6 +1,6 @@
 [package]
 name = "voter-stake-registry"
-version = "0.3.0"
+version = "0.3.1"
 description = "a voter weight plugin for spl-governance"
 license = "GPL-3.0-or-later"
 homepage = "https://github.com/blockworks-foundation/voter-stake-registry"
@@ -27,6 +27,7 @@ bytemuck = {version = "1.9.1", features = ["derive", "min_const_generics"]}
 spl-governance = { git = "https://github.com/Mythic-Project/solana-program-library", branch = "governance-v3.1.2", features = [ "no-entrypoint" ] }
 spl-governance-addin-api  = { git = "https://github.com/Mythic-Project/solana-program-library", branch = "governance-v3.1.2" }
 static_assertions = "1.1"
+spl-transfer-hook-interface = "0.10.0"
 
 [dev-dependencies]
 solana-sdk = "=2.2.1"

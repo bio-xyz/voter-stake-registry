@@ -50,6 +50,7 @@ pub struct Withdraw<'info> {
         mut,
         associated_token::authority = voter,
         associated_token::mint = mint,
+        associated_token::token_program = token_program,
     )]
     pub vault: Box<InterfaceAccount<'info, TokenAccount>>,
 
